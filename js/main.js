@@ -41,11 +41,12 @@ const workBinder = function() {
     //Fullscreen gallery handlers
     $('.gallery-image').bind('click', function(e) {
         disableScroll();
-        const bgStr = 'url("' + $(this).attr('src') + '")';
+        const $this = $(this);
+        const bgStr = 'url("' + $this.attr('src') + '")';
         const $gallery = $('.gallery');
         $('body').addClass('gallery-fullscreen');
         $('.gallery-bg-img').css('background-image', bgStr);
-        $('.gallery-caption-content').text($(this).attr('data-caption'));
+        $('.gallery-caption-content').text($this.attr('data-caption'));
         $gallery.addClass('active');
         setTimeout(function() {
             $gallery.addClass('grace');
@@ -100,6 +101,7 @@ const reset = function(override) {
     const $mainNav = $('.main-nav');
     const $activeFinishedMenuPage = $menuPages.find('.active-finished');
     $('.mobile-menu').removeClass('active');
+    $('.mobile-view-work').removeClass('active');
     $('.main-nav-list').removeClass('mobile-active');
     if ($menuPages.find('.active').length > 0) {
         if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
@@ -155,7 +157,7 @@ const loadWork = function($targetEl) {
             $('.work-splash-title').find('span').text($targetEl.attr('data-title'));
             $menuWorkPage.addClass('grace-kill');
             $mainNav.find('.active').removeClass('active');
-
+            $('.mobile-view-work').removeClass('active');
             const loadBar = function(total, progress) {
                 //console.log(total);
                 //console.log(progress);
@@ -181,9 +183,10 @@ const loadWork = function($targetEl) {
                 $('.work-content-container').load(htmlUrl, function() {
                     workBinder();
                     //console.log('loaded');
-                    const assetCount = $(this).find('img').length + 1;
+                    const $this = $(this);
+                    const assetCount = $this.find('img').length + 1;
                     //console.log(assetCount);
-                    $(this).find('img').each(function() {
+                    $this.find('img').each(function() {
                         const img = new Image();
                         $(img).on('load', function() {
                             //console.log('img loaded');
@@ -247,10 +250,11 @@ $('.menu-page-link').bind('click', function(e) {
     const $menuPages = $('.menu-pages');
     const $mainNav = $('.main-nav');
     const $body = $('body');
+    const $this = $(this);
     $('.menu-filter').removeClass('active');
     $('.mobile-menu').removeClass('active');
     $('.main-nav-list').removeClass('mobile-active');
-    const $page = $('.' + $(this).attr('data-page'));
+    const $page = $('.' + $this.attr('data-page'));
     if ($menuPages.find('.active').length > 0) {
         if ($menuPages.find('.active-finished').length !== 0 && ($page.hasClass('active-finished'))) {
             $mainNav.find('.active').removeClass('active');
@@ -266,7 +270,7 @@ $('.menu-page-link').bind('click', function(e) {
         if ($menuPages.find('.active-finished').length !== 0 && (!$page.hasClass('active-finished')) && $menuPages.find('.grace-transition').length === 0) {
             //console.log('transitioning');
             $mainNav.find('.active').removeClass('active');
-            $(this).addClass('active');
+            $this.addClass('active');
             $menuPages.find('.active-finished').addClass('grace-transition');
             setTimeout(function() {
                 $menuPages.find('.active-finished').removeClass('active active-finished grace-transition');
@@ -284,7 +288,7 @@ $('.menu-page-link').bind('click', function(e) {
             disableScroll();
             $body.addClass('fullscreen');
             $mainNav.addClass('shadow');
-            $(this).addClass('active');
+            $this.addClass('active');
             //console.log('opening');
             $page.addClass('active');
             setTimeout(function() {
