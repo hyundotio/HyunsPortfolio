@@ -18,7 +18,7 @@ body, html {
     background-color:#000;
     color:#FFF;
 }
-body.peace .main-nav, body.peace .homepage-footer {
+body.peace .main-nav, body.peace .homepage-footer, body.peace .mobile-view-work {
     opacity:0;
     visibility:hidden;
 }
@@ -250,6 +250,7 @@ body.loading-work .main-nav{
     margin-top: 2rem;
     padding:1rem;
     display: none;
+    transition:0.5s linear opacity, 0.5s linear visibility;
 }
 .work-splash-bg {
     background-position: center;
