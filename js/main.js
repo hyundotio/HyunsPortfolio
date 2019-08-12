@@ -101,7 +101,6 @@ const reset = function(override) {
     const $mainNav = $('.main-nav');
     const $activeFinishedMenuPage = $menuPages.find('.active-finished');
     $('.mobile-menu').removeClass('active');
-    $('.mobile-view-work').removeClass('active');
     $('.main-nav-list').removeClass('mobile-active');
     if ($menuPages.find('.active').length > 0) {
         if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
@@ -157,7 +156,6 @@ const loadWork = function($targetEl) {
             $('.work-splash-title').find('span').text($targetEl.attr('data-title'));
             $menuWorkPage.addClass('grace-kill');
             $mainNav.find('.active').removeClass('active');
-            $('.mobile-view-work').removeClass('active');
             const loadBar = function(total, progress) {
                 //console.log(total);
                 //console.log(progress);
@@ -302,6 +300,18 @@ $('.menu-page-link').bind('click', function(e) {
 })
 //Homepage menu handler
 
+//Mobile view work
+$('.mobile-view-work').bind('click',function(e){
+  e.preventDefault();
+  $('.menu-page-link').each(function(){
+    const $this = $(this);
+    if($this.attr('data-page') === 'menu-work-page'){
+      $this.click();
+    }
+  })
+})
+//Mobile view work
+
 //Homepage
 $('.reset').bind('click', function(e) {
     e.preventDefault();
@@ -315,7 +325,6 @@ $('.reset-home').bind('click', function(e) {
 
 //Mobile menu handlers
 $('.menu-filter').bind('click', function() {
-    $('.mobile-view-work').removeClass('active');
     $('.mobile-menu').removeClass('active');
     $('.main-nav-list').removeClass('mobile-active');
     $('.menu-filter').removeClass('active');
