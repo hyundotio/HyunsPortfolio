@@ -311,6 +311,7 @@ $('.reset-home').bind('click', function(e) {
 
 //Mobile menu handlers
 $('.menu-filter').bind('click', function() {
+    $('.mobile-view-work').removeClass('active');
     $('.mobile-menu').removeClass('active');
     $('.main-nav-list').removeClass('mobile-active');
     $('.menu-filter').removeClass('active');
