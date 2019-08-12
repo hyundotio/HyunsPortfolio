@@ -211,24 +211,23 @@ const loadWork = function($targetEl) {
 //Work Handlers
 
 //Easter Egg
+const bgaudio = new Audio();
 $(document).keyup(function(e) {
     const $body = $('body');
     if (e.key === "Escape") {
-        const bgaudio = new Audio();
         if ($('.active').length === 0) {
             if ($body.hasClass('peace')) {
                 $body.removeClass('peace').removeAttr('style');
                 bgaudio.pause();
                 bgaudio.currentTime = 0;
             } else {
-                $(bgaudio).on('load', function() {
-                    $body.addClass('peace');
-                    bgaudio.loop = true;
-                    const promise = bgaudio.play();
-                    if (promise !== undefined) {
-                        promise.then(_ => {}).catch(error => {});
-                    }
-                }).attr('src', './assets/bg.mp3');
+                $body.addClass('peace');
+                bgaudio.loop = true;
+                bgaudio.src = './assets/bg.mp3';
+                const promise = bgaudio.play();
+                if (promise !== undefined) {
+                    promise.then(_ => {}).catch(error => {});
+                }
             }
         }
     }
