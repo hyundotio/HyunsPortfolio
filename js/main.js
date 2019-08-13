@@ -50,7 +50,7 @@ const workBinder = function() {
         $gallery.addClass('active');
         setTimeout(function() {
             $gallery.addClass('grace');
-        }, 10)
+        }, 30)
     });
 
     $('.exit-gallery').bind('click', function(e) {
@@ -59,10 +59,10 @@ const workBinder = function() {
         const $gallery = $('.gallery');
         if ($gallery.hasClass('grace')) {
             $('body').removeClass('gallery-fullscreen');
-            $gallery.removeClass('grace caption-enabled');
+            $gallery.removeClass('grace');
             setTimeout(function() {
-                $gallery.removeClass('active');
-            }, 500)
+                $gallery.removeClass('active caption-enabled');
+            }, 520)
         }
     });
 
@@ -93,7 +93,7 @@ const closeWork = function() {
             $('.work-splash').removeClass('active ready grace-kill');
             $workPageContainer.removeClass('active grace-kill');
             $mainSplash.removeClass('grace-kill');
-        }, 600);
+        }, 520);
     }
 }
 
@@ -112,7 +112,7 @@ const reset = function(override) {
             $activeFinishedMenuPage.addClass('grace-kill').removeClass('active-finished');
             setTimeout(function() {
                 $menuPages.find('.active').removeClass('active grace-kill');
-            }, 1000);
+            }, 1020);
             //console.log('killing');
         }
     }
@@ -141,7 +141,7 @@ const loadWork = function($targetEl) {
                     setTimeout(function() {
                         $mainNav.removeClass('shadow');
                         $menuPages.find('.active').removeClass('active grace-kill');
-                    }, 1000);
+                    }, 1020);
                     //console.log('killing');
                 }
             }
@@ -173,7 +173,7 @@ const loadWork = function($targetEl) {
                         $body.removeClass('loading-work').addClass('work-mode');
                         $loaderBar.css('width', '0');
                         $loaderPercentageNumber.text('0');
-                    }, 600);
+                    }, 520);
                 }
             }
             setTimeout(function() {
@@ -257,7 +257,7 @@ $('.menu-page-link').bind('click', function(e) {
             $page.addClass('grace-kill').removeClass('active-finished');
             setTimeout(function() {
                 $page.removeClass('active grace-kill');
-            }, 1000);
+            }, 1020);
             //console.log('killing');
         }
         if ($menuPages.find('.active-finished').length !== 0 && (!$page.hasClass('active-finished')) && $menuPages.find('.grace-transition').length === 0) {
@@ -272,9 +272,9 @@ $('.menu-page-link').bind('click', function(e) {
                     $page.addClass('grace-active');
                     setTimeout(function() {
                         $page.removeClass('grace-active').addClass('active-finished');
-                    }, 1000);
+                    }, 1020);
                 }, 50);
-            }, 500);
+            }, 520);
         }
     } else {
         if ($menuPages.find('.active-finished').length === 0) {
@@ -288,7 +288,7 @@ $('.menu-page-link').bind('click', function(e) {
                 $page.addClass('grace-active');
                 setTimeout(function() {
                     $page.removeClass('grace-active').addClass('active-finished');
-                }, 1000);
+                }, 1020);
             }, 50);
         }
     }
@@ -354,7 +354,7 @@ const firstLoad = function() {
     setTimeout(function() {
         $('.homepage-footer').removeClass('op-hidden');
         $('.main-nav').removeClass('op-hidden');
-    }, 500);
+    }, 520);
 }
 
 const initLoadGraceCheck = function() {
@@ -366,7 +366,7 @@ const initLoadGraceCheck = function() {
             $('body').removeAttr('style');
             setTimeout(function() {
                 firstLoad();
-            }, 500);
+            }, 520);
         }
     }
     $img.each(function() {

@@ -58,7 +58,7 @@ body.loading-work .main-nav{
 .about-container p {
     margin-bottom: 1rem;
     max-width: 490px;
-    line-height: 1.5rem;
+    line-height: 1.5em;
     box-sizing: border-box;
     padding: 0 1rem;
     text-align: left;
@@ -406,7 +406,17 @@ a:hover {
     margin-bottom:3rem;
     box-sizing: border-box;
     padding-left: 2rem;
-    border-left:2px solid #C6C6C6;
+    position:relative;
+}
+.meta-list:after {
+    content: ' ';
+    height: calc(100% - 0.375rem);
+    width: 2px;
+    background-color: #C6C6C6;
+    display: block;
+    left: 0;
+    top: 0;
+    position: absolute;
 }
 .meta-list li {
     margin-bottom:2rem;
@@ -433,9 +443,7 @@ a:hover {
 .work-gallery {
     margin: 0 auto;
     overflow: hidden;
-    padding: 4rem;
     box-sizing: border-box;
-    max-width: 1920px;
 }
 .work-gallery li {
     cursor:pointer;
@@ -456,7 +464,7 @@ a:hover {
 .gallery-caption-content {
     margin-bottom: 1rem;
     max-width: 560px;
-    line-height: 1.5rem;
+    line-height: 1.5em;
     box-sizing: border-box;
     padding: 0 1rem;
 }
@@ -473,13 +481,15 @@ a:hover {
     object-fit: contain;
     height: auto;
 }
-.work-video.no-offset {
-    margin:3rem auto 3rem auto;
+.work-video.padded {
+    padding: 11.5rem 2.75rem;
+    box-sizing: border-box;
+    background-color: #000;
 }
 .work-video {
     display: block;
     height:100vh;
-    margin: 3rem auto 6rem auto;
+    margin: 0 auto;
     width: 100%;
     object-fit: cover;
 }
@@ -503,7 +513,7 @@ a:hover {
 }
 .work-section p {
     font-size: 1.5rem;
-    line-height: 2.25rem;
+    line-height: 1.5em;
     color: #D5D8DC;
     margin-bottom:1rem
 }
@@ -660,6 +670,7 @@ a:hover {
     transition-delay:0.25s;
     visibility: hidden;
     opacity:0;
+    z-index:3;
 }
 .menu-page.active.grace-transition {
     transition:0.33s ease-out opacity, 0.5s ease-out visibility;
@@ -864,13 +875,6 @@ a {
    }
     .work-section p {
         font-size:1rem;
-        line-height:1.75rem;
-   }
-    .work-video {
-        margin: -1rem auto 3rem auto;
-   }
-    .work-video.no-offset {
-        margin:0 auto 3rem auto;
    }
     .links-list {
         margin-top:2rem;
