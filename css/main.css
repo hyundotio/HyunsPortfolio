@@ -355,11 +355,11 @@ a {
     width: 100%;
     box-sizing: border-box;
     padding: 1rem 1rem 0 1rem;
-    height: 4rem;
-    background-color: rgba(0,0,0,0)0.5s linear opacity, 0.5s linear visibility;
+    height: 5rem;
+    background-color: rgba(0,0,0,0);
 }
 .work-mode .main-nav {
-    background-color:rgba(0,0,0,0.33);
+    background-color:rgba(0,0,0,0.5);
 }
 .main-nav.shadow ul li a {
     opacity:0.33;
