@@ -64,7 +64,7 @@ body.loading-work .main-nav{
     max-width: 490px;
     line-height: 1.5em;
     box-sizing: border-box;
-    padding: 0 1rem;
+    padding: 0 2rem;
     text-align: left;
 }
 .about-container p:last-of-type {
@@ -118,7 +118,7 @@ body.loading-work .main-nav{
     max-width: 560px;
     line-height: 1.5em;
     box-sizing: border-box;
-    padding: 0 1rem;
+    padding: 0 2rem;
     margin-bottom: 1.5rem;
 }
 .gallery-caption {
@@ -675,6 +675,8 @@ a:hover {
 }
 .resume-viewer, .resume-viewer img {
     height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
 .resume-viewer img {
     border-radius:2px;
@@ -746,7 +748,7 @@ a {
     width:4rem;
     float:left;
     display:none;
-    padding:1rem;
+    padding:2rem 2rem 1rem 2rem;
     cursor:pointer;
     transition:0.5s opacity linear;
 }
@@ -802,7 +804,7 @@ a {
 }
 @media only screen and (max-width: 720px) {
     .main-nav a.reset-toggler {
-        padding:1rem;
+        padding:2rem;
    }
     .main-nav ul li.home-container {
         height:0;
@@ -815,7 +817,7 @@ a {
         padding:1.5rem;
    }
     .main-nav a{
-        padding:1.25rem 1rem;
+        padding:1.25rem 2rem;
    }
     .work-page-contents {
         height: 19.5rem;
@@ -876,7 +878,7 @@ a {
 }
 @media only screen and (max-width: 684px) {
     .work-section {
-        padding:3rem 1rem;
+        padding:3rem 2rem;
    }
     .links-list {
         font-size:1rem;
