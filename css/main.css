@@ -50,6 +50,7 @@ body.loading-work .main-nav{
     opacity:0;
 }
 .work-scroller {
+  cursor:pointer;
   position:fixed;
   z-index:2;
   right:2rem;

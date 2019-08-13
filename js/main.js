@@ -32,7 +32,8 @@ const workBinder = function() {
     //Work video
 
     //Work back to top
-    $('.back-to-top').bind('click', function() {
+    $('.back-to-top').bind('click', function(e) {
+        e.preventDefault();
         $('html,body').animate({
             scrollTop: 0
         }, 1000);
