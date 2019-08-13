@@ -89,6 +89,7 @@ const closeWork = function() {
         $workPageContainer.removeAttr('data-work').addClass('grace-kill');
         $mainSplash.addClass('grace-kill');
         setTimeout(function() {
+            $workPageContainer.find('.work-content-container').empty();
             $('.work-splash').removeClass('active ready grace-kill');
             $workPageContainer.removeClass('active grace-kill');
             $mainSplash.removeClass('grace-kill');
@@ -145,6 +146,7 @@ const loadWork = function($targetEl) {
                 }
             }
         } else {
+            $workPageContainer.find('.work-content-container').empty();
             $loaderBar.css('width', '0');
             $loaderPercentageNumber.text('0');
             enableScroll();
@@ -198,13 +200,6 @@ const loadWork = function($targetEl) {
                         loadBar(assetCount, loaderCount);
                     }).attr('src', imgUrl)
                 })
-                /*
-                var img = new Image();
-                $(img).on('load',function(){
-
-                }).attr({
-                  src: imgUrl
-                })*/
             }, 1200);
         }
     }
