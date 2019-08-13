@@ -673,7 +673,13 @@ a:hover {
     padding: 6rem 0 7rem 0;
     text-align: center;
 }
-.resume-viewer, .resume-viewer img {
+.resume-viewer {
+    box-sizing: border-box;
+    padding: 0 2rem;
+    height: 100%;
+    width: 100%;
+}
+.resume-viewer img {
     height: 100%;
     width: 100%;
     object-fit: contain;
