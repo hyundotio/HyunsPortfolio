@@ -303,7 +303,7 @@ body.loading-work .main-nav{
 a::-moz-focus-inner {
     border: 0;
 }
-a {
+a, video, img {
     outline:0;
 }
 .hide {
