@@ -94,6 +94,7 @@ const closeWork = function() {
     const $mainSplash = $('.main-splash');
     if (!$workPageContainer.hasClass('grace-kill') && $workPageContainer.attr('data-work') !== undefined) {
         //console.log('closing work');
+        $('.work-scroller').removeClass('active');
         $('.mobile-menu').removeClass('active');
         $('.main-nav-list').removeClass('mobile-active');
         workUnbinder();
@@ -161,6 +162,7 @@ const loadWork = function($targetEl) {
             $workPageContainer.find('.work-content-container').empty();
             $loaderBar.css('width', '0');
             $loaderPercentageNumber.text('0');
+            $('.work-scroller').removeClass('active');
             enableScroll();
             $body.removeClass('fullscreen').addClass('loading-work');
             const htmlUrl = './projects/' + $targetEl.attr('data-work') + '/html.html';
@@ -241,6 +243,25 @@ $(document).keyup(function(e) {
     }
 });
 //Easter Egg
+
+//Back to Top//
+const scrollToggler = function(){
+  const $body = $('body');
+  if($body.hasClass('work-mode')){
+    const $workScroller = $('.work-scroller');
+    const bScroll = Math.ceil($(window).scrollTop());
+    const bHeight = Math.ceil($body.height());
+    if (bScroll > 100 && bScroll < (bHeight-100))  {
+        $workScroller.addClass('active');
+    } else {
+        $workScroller.removeClass('active');
+    }
+  }
+}
+$(window).scroll(function() {
+  scrollToggler();
+});
+//Back to Top//
 
 //Load work
 $('.work-page-link').bind('click', function(e) {
