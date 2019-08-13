@@ -658,6 +658,7 @@ a:hover {
 .work-page.active .work-list li a {
     display:inline-block;
     padding:1rem;
+    min-width: 12rem;
 }
 .work-page-contents {
     position:absolute;
@@ -684,9 +685,6 @@ a:hover {
     height: 100%;
     width: 100%;
     object-fit: contain;
-}
-.resume-viewer img {
-    border-radius:2px;
 }
 .resume-viewer-container a {
     margin-top: 1rem;
