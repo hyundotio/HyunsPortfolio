@@ -94,6 +94,8 @@ const closeWork = function() {
     const $mainSplash = $('.main-splash');
     if (!$workPageContainer.hasClass('grace-kill') && $workPageContainer.attr('data-work') !== undefined) {
         //console.log('closing work');
+        $('.mobile-menu').removeClass('active');
+        $('.main-nav-list').removeClass('mobile-active');
         workUnbinder();
         $('body').removeClass('work-mode');
         $workPageContainer.removeAttr('data-work').addClass('grace-kill');
@@ -111,10 +113,10 @@ const reset = function(override) {
     const $menuPages = $('.menu-pages');
     const $mainNav = $('.main-nav');
     const $activeFinishedMenuPage = $menuPages.find('.active-finished');
-    $('.mobile-menu').removeClass('active');
-    $('.main-nav-list').removeClass('mobile-active');
     if ($menuPages.find('.active').length > 0) {
         if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
+            $('.mobile-menu').removeClass('active');
+            $('.main-nav-list').removeClass('mobile-active');
             $mainNav.find('.active').removeClass('active');
             enableScroll();
             $('body').removeClass('fullscreen');
@@ -126,7 +128,7 @@ const reset = function(override) {
             //console.log('killing');
         }
     }
-    if (override) {
+    if (override && ($('.grace-active').length === 0)){
         closeWork();
     }
 }
