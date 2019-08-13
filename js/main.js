@@ -44,6 +44,11 @@ const workBinder = function() {
         const $this = $(this);
         const bgStr = 'url("' + $this.attr('src') + '")';
         const $gallery = $('.gallery');
+        if($this.hasClass('light-img')){
+          $gallery.addClass('light');
+        } else {
+          $gallery.removeClass('light');
+        }
         $('body').addClass('gallery-fullscreen');
         $('.gallery-bg-img').css('background-image', bgStr);
         $('.gallery-caption-content').text($this.attr('data-caption'));
@@ -65,6 +70,11 @@ const workBinder = function() {
             }, 520)
         }
     });
+
+    $('.gallery-caption-close').bind('click', function(e) {
+        e.preventDefault();
+        $('.gallery').removeClass('caption-enabled');
+    })
 
     $('.gallery-caption-button').bind('click', function(e) {
         e.preventDefault();
