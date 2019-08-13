@@ -521,6 +521,7 @@ a:hover {
     background-color: #000;
 }
 .work-video {
+    cursor: pointer;
     display: block;
     height:100vh;
     margin: 0 auto;
