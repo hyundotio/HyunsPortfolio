@@ -245,9 +245,16 @@ const loadWork = function($targetEl) {
 
 //Easter Egg
 const bgaudio = new Audio();
-$(document).keyup(function(e) {
+$(document).on("keypress", function (e) {
+    e.preventDefault();
     const $body = $('body');
-    if (e.key === "Escape") {
+    let keynum;
+    if(window.event) { // IE
+        keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera
+        keynum = e.which;
+    }
+    if(String.fromCharCode(keynum) == 'p' || String.fromCharCode(keynum) == 'P'){
         if ($('.active').length === 0) {
             if ($body.hasClass('peace')) {
                 $body.removeClass('peace').removeAttr('style');
