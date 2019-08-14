@@ -293,7 +293,8 @@ const pageHandler = function($el){
   if($el.hasClass('menu-about')){
     if($el.hasClass('active')){
       TiltAnimation.init();
-    } else {
+    }
+    if($el.hasClass('grace-kill') || $el.hasClass('grace-transition')){
       TiltAnimation.kill();
     }
   }
@@ -328,9 +329,11 @@ $('.menu-page-link').bind('click', function(e) {
             //console.log('transitioning');
             $mainNav.find('.active').removeClass('active');
             $this.addClass('active');
-            $menuPages.find('.active-finished').addClass('grace-transition');
+            const $prevPage = $menuPages.find('.active-finished');
+            $prevPage.addClass('grace-transition');
+            pageHandler($prevPage);
             setTimeout(function() {
-                $menuPages.find('.active-finished').removeClass('active active-finished grace-transition');
+                $prevPage.removeClass('active active-finished grace-transition');
                 $page.addClass('active');
                 pageHandler($page);
                 setTimeout(function() {
@@ -349,13 +352,11 @@ $('.menu-page-link').bind('click', function(e) {
             $this.addClass('active');
             //console.log('opening');
             $page.addClass('active');
+            pageHandler($page);
+            $page.addClass('grace-active');
             setTimeout(function() {
-                pageHandler($page);
-                $page.addClass('grace-active');
-                setTimeout(function() {
-                    $page.removeClass('grace-active').addClass('active-finished');
-                }, 1020);
-            }, 50);
+                $page.removeClass('grace-active').addClass('active-finished');
+            }, 1020);
         }
     }
 })
