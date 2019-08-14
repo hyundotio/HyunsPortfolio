@@ -426,7 +426,7 @@ const firstLoad = function() {
     setTimeout(function() {
         $('.homepage-footer').removeClass('op-hidden');
         $('.main-nav').removeClass('op-hidden');
-    }, 520);
+    }, 500);
 }
 
 const initLoadGraceCheck = function() {
