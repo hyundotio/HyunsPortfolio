@@ -21,6 +21,7 @@ const workUnbinder = function() {
     $('.gallery-image').unbind('click');
     $('.exit-gallery').unbind('click');
     $('.gallery-caption-button').unbind('click');
+    $(window).unbind('scroll');
 }
 const workBinder = function() {
     //Work video
@@ -87,6 +88,25 @@ const workBinder = function() {
         }
     })
     //Fullscreen gallery handlers
+
+    //scroll workBinder
+    const unhideElements = function(){
+      if($('body').hasClass('work-mode')){
+        $('.scroll-hidden').each( function(e){
+          const $this = $(this);
+          const thisTopPos = $this.offset().top + 48;
+          const scrollPos = $(window).scrollTop() + $(window).height();
+             if(scrollPos > thisTopPos){
+                $this.removeClass('scroll-hidden');
+             }
+         });
+      }
+    }
+    $(window).bind('scroll',function(){
+        unhideElements();
+        scrollToggler();
+    })
+    //scroll binder
 }
 
 //Work Handlers
@@ -259,9 +279,6 @@ const scrollToggler = function(){
     }
   }
 }
-$(window).scroll(function() {
-  scrollToggler();
-});
 //Back to Top//
 
 //Load work

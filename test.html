@@ -108,9 +108,9 @@
   			</div>
         <div class="about-bg about-marquee">
           <div class="about-marquee-content">
-            <div class="stripe-1 stripe"><span>HYUN HYUN HYUN</span><span>HYUN HYUN HYUN</span></div>
-            <div class="stripe-2 stripe"><span>HYUN HYUN HYUN</span><span>HYUN HYUN HYUN</span></div>
-            <div class="stripe-3 stripe"><span>HYUN HYUN HYUN</span><span>HYUN HYUN HYUN</span></div>
+            <div class="stripe-1 stripe"></div>
+            <div class="stripe-2 stripe"></div>
+            <div class="stripe-3 stripe"></div>
           </div>
         </div>
         <style>
@@ -121,41 +121,30 @@
             z-index:-1;
             width:100%;
             height:100%;
-            font-size:33vh;
+            overflow:hidden;
+          }
+          .stripe {
+            width: 400%;
+            background-image: url('./assets/about-bg.svg');
+            height: 33.4vh;
+            background-size: contain;
+            background-repeat: repeat-x;
+            animation: pulsate 4s infinite linear;
+            opacity:0;
+          }
+          @keyframes pulsate {
+            from { opacity: 0.08; }
+            50% { opacity: 0; }
+            to { opacity: 0.08; }
           }
           .about-bg .stripe-1 {
-
+            animation-delay:0;
           }
           .about-bg .stripe-2 {
-
+            animation-delay:1s;
           }
           .about-bg .stripe-3 {
-
-          }
-          .about-marquee-content {
-            width:100%;
-            height:33vh;
-            overflow: hidden;
-            position: relative;
-          }
-
-          .about-marquee .stripe {
-            display: block;
-            width: 200%;
-            height: 33vh;
-            position: relative;
-            overflow: hidden;
-            animation: marquee 5s linear infinite;
-          }
-          .stripe span {
-            float: left;
-            width: 50%;
-            height: 33vh;
-          }
-
-          @keyframes marquee {
-            0% { left: 0; }
-            100% { left: -100%; }
+            animation-delay:2s;
           }
         </style>
   		</div>

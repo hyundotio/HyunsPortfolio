@@ -22,6 +22,19 @@ body.peace .main-nav, body.peace .homepage-footer, body.peace .mobile-view-work 
     opacity:0;
     visibility:hidden;
 }
+.scroll-hide {
+    position:relative;
+    transition:0.3s linear opacity, 0.3s ease-out top;
+    opacity:1;
+    top:0;
+}
+.scroll-hide.scroll-hidden {
+    opacity:0;
+    top:-2rem;
+}
+.scroll-hide.scroll-hide-no-top{
+    top:0;
+}
 .fullscreen, .gallery-fullscreen {
     overflow:hidden;
 }
