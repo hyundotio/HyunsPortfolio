@@ -594,8 +594,22 @@ a:hover {
 .main-nav a, .main-nav a span, .main-nav ul li {
     display:inline-block;
 }
-.main-nav .reset-toggler {
+.reset-toggler {
     float:right;
+    width:8rem;
+    text-align:right;
+    position:relative;
+}
+.back {
+    cursor:default;
+    transition:0.5s ease-out opacity, 0.5s ease-out visibility;
+    opacity:0;
+    visibility: hidden;
+}
+.work-mode.fullscreen .back{
+    opacity:1;
+    cursor:pointer;
+    visibility: visible;
 }
 .main-nav a {
     padding:1rem;
@@ -807,33 +821,13 @@ a {
 .mobile-menu-block:last-of-type {
     margin:0;
 }
-.reset-toggler {
-    width:8rem;
-    text-align:right;
-    position:relative;
-    cursor:default;
-}
-.reset-toggler span {
-    transition:0.5s ease-out opacity, 0.5s ease-out visibility;
-}
-.fullscreen .reset-toggler {
-    cursor:pointer;
-}
-.back {
-    opacity:0;
-    visibility: hidden;
-}
-.fullscreen .back{
-    opacity:1;
-    visibility: visible;
-}
 .main-nav ul li.home-container {
     width:0;
     margin-right:0;
     overflow:hidden;
     transition:0.2s width ease-out, 0.2s opacity ease-out, 0.2s margin ease-out;
 }
-.work-mode .main-nav ul li.home-container{
+.work-mode .main-nav ul li.home-container, .fullscreen .main-nav ul li.home-container, .loading-work .main-nav ul li.home-container{
     width: 6.625rem;
     margin-right:1.5rem;
 }
