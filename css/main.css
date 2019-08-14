@@ -599,14 +599,12 @@ a:hover {
     width:8rem;
     text-align:right;
     position:relative;
-}
-.back {
     cursor:default;
-    transition:0.5s ease-out opacity, 0.5s ease-out visibility;
     opacity:0;
     visibility: hidden;
+    transition:0.5s ease-out opacity, 0.5s ease-out visibility;
 }
-.work-mode.fullscreen .back{
+.work-mode.fullscreen .reset-toggler{
     opacity:1;
     cursor:pointer;
     visibility: visible;
