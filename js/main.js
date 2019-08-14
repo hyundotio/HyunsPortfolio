@@ -117,6 +117,7 @@ const closeWork = function() {
         //console.log('closing work');
         $('.work-scroller').removeClass('active');
         $('.mobile-menu').removeClass('active');
+        $('.menu-filter').removeClass('active');
         $('.main-nav-list').removeClass('mobile-active');
         workUnbinder();
         $('body').removeClass('work-mode');
@@ -138,7 +139,6 @@ const reset = function(override) {
     if ($menuPages.find('.active').length > 0) {
         if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
             $('.mobile-menu').removeClass('active');
-            $('.menu-filter').removeClass('active');
             $('.main-nav-list').removeClass('mobile-active');
             $mainNav.find('.active').removeClass('active');
             enableScroll();
