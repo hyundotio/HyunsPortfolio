@@ -288,6 +288,17 @@ $('.work-page-link').bind('click', function(e) {
 })
 //Load work
 
+//page handler
+const pageHandler = function($el){
+  if($el.hasClass('menu-about')){
+    if($el.hasClass('active')){
+      TiltAnimation.init();
+    } else {
+      TiltAnimation.kill();
+    }
+  }
+}
+//page handler
 //Homepage menu handler
 $('.menu-page-link').bind('click', function(e) {
     e.preventDefault();
@@ -295,10 +306,11 @@ $('.menu-page-link').bind('click', function(e) {
     const $mainNav = $('.main-nav');
     const $body = $('body');
     const $this = $(this);
+    const nextPage = $this.attr('data-page');
     $('.menu-filter').removeClass('active');
     $('.mobile-menu').removeClass('active');
     $('.main-nav-list').removeClass('mobile-active');
-    const $page = $('.' + $this.attr('data-page'));
+    const $page = $('.' + nextPage);
     if ($menuPages.find('.active').length > 0) {
         if ($menuPages.find('.active-finished').length !== 0 && ($page.hasClass('active-finished'))) {
             $mainNav.find('.active').removeClass('active');
@@ -306,6 +318,7 @@ $('.menu-page-link').bind('click', function(e) {
             $body.removeClass('fullscreen');
             $mainNav.removeClass('shadow');
             $page.addClass('grace-kill').removeClass('active-finished');
+            pageHandler($page);
             setTimeout(function() {
                 $page.removeClass('active grace-kill');
             }, 1020);
@@ -316,6 +329,7 @@ $('.menu-page-link').bind('click', function(e) {
             $mainNav.find('.active').removeClass('active');
             $this.addClass('active');
             $menuPages.find('.active-finished').addClass('grace-transition');
+            pageHandler($page);
             setTimeout(function() {
                 $menuPages.find('.active-finished').removeClass('active active-finished grace-transition');
                 $page.addClass('active');
@@ -336,6 +350,7 @@ $('.menu-page-link').bind('click', function(e) {
             //console.log('opening');
             $page.addClass('active');
             setTimeout(function() {
+                pageHandler($page);
                 $page.addClass('grace-active');
                 setTimeout(function() {
                     $page.removeClass('grace-active').addClass('active-finished');
