@@ -30,6 +30,10 @@ body.peace .main-nav, body.peace .homepage-footer, body.peace .mobile-view-work 
 }
 .scroll-hide.scroll-hidden {
     opacity:0;
+    top:2rem;
+}
+.scroll-hide.scroll-hide-no-top {
+    top:0;
 }
 .fullscreen, .gallery-fullscreen {
     overflow:hidden;
