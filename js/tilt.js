@@ -49,8 +49,8 @@ const TiltAnimation = function() {
   const _getMousePos = function(e) {
     e = e || window.event;
 
-    mouseX = e.pageX;
-    mouseY = e.pageY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 
     const xPos = (mouseX / window.innerWidth) - 0.5;
     const yPos = (mouseY / window.innerHeight) - 0.5;
