@@ -329,10 +329,10 @@ $('.menu-page-link').bind('click', function(e) {
             $mainNav.find('.active').removeClass('active');
             $this.addClass('active');
             $menuPages.find('.active-finished').addClass('grace-transition');
-            pageHandler($page);
             setTimeout(function() {
                 $menuPages.find('.active-finished').removeClass('active active-finished grace-transition');
                 $page.addClass('active');
+                pageHandler($page);
                 setTimeout(function() {
                     $page.addClass('grace-active');
                     setTimeout(function() {
