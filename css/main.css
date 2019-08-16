@@ -116,7 +116,7 @@ body.peace .main-nav, body.peace .homepage-footer, body.peace .mobile-view-work 
 /** Main Nav**/
 
 /** Special menu handler **/
-.reset-toggler {
+a.reset-toggler {
     float:right;
     width:8rem;
     text-align:right;
@@ -853,14 +853,19 @@ body.loading-work {
 /** Back to top button for work page **/
 
 @media only screen and (max-width: 720px) {
-    .main-nav a.reset-toggler {
+    .fullscreen .reset-toggler {
+        opacity: 1;
+        cursor: pointer;
+        visibility: visible;
+    }
+    .main-nav .reset-toggler {
         padding:2rem;
    }
     .main-nav ul li.home-container {
         height:0;
         transition:0.2s width ease-out, 0.2s opacity ease-out, 0.2s margin ease-out, 0.2s height ease-out;
    }
-    .work-mode .main-nav ul li.home-container {
+    .work-mode .main-nav ul li.home-container, .fullscreen .main-nav ul li.home-container {
         height:3.5rem;
    }
     .work-page.active .work-list li a {
