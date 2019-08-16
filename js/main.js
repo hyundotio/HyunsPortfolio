@@ -131,7 +131,7 @@ const closeWork = function() {
         $('.work-scroller').removeClass('active');
         mobileMenuKiller();
         workUnbinder();
-        $('body').removeClass('work-mode');
+        $('body').removeClass('work-mode loading-work');
         $workPageContainer.removeAttr('data-work').addClass('grace-kill');
         $mainSplash.addClass('grace-kill');
         setTimeout(function() {
@@ -201,7 +201,7 @@ const loadWork = function(hashLoc) {
             const imgUrl = './projects/' + hashLoc[1] + '/bg.jpg';
             $workPageContainer.removeClass('active');
             $workSplash.removeClass('ready').addClass('active');
-            let workTitle;
+            let workTitle = '';
             $('.work-list').find('a').each(function(){
               const $this = $(this);
               if($this.attr('data-work') == hashLoc[1]){
@@ -320,12 +320,12 @@ const navHandler = function(navData){
   $('.main-nav-list').find('a').each(function(){
     const $this = $(this);
     if($this.attr('data-pageClass') == navData){
-      console.log('active!');
-      $this.addClass('active');
+      //console.log('active!');
       if($this.attr('data-pageClass') == 'home-page'){
         $mainNav.removeClass('shadow');
       } else {
-        console.log($this.attr('data-pageClass'));
+        //console.log($this.attr('data-pageClass'));
+        $this.addClass('active');
         $mainNav.addClass('shadow');
       }
     }
@@ -350,7 +350,7 @@ const pageHandler = function($el){
 const pageKiller = function($page){
   const openingLoc = window.location.hash;
   enableScroll();
-  $('body').removeClass('fullscreen');
+  $('body').removeClass('fullscreen loading-work');
   $page.addClass('grace-kill').removeClass('active-finished');
   pageHandler($page);
   setTimeout(function() {
@@ -364,7 +364,7 @@ const loadPage = function(hashLoc){
   const $body = $('body');
   mobileMenuKiller();
   const $page = $('.' + hashLoc[1]);
-  console.log($page);
+  //console.log($page);
   if($page.length > 0){
     if ($menuPages.find('.active').length > 0) {
         //console.log('transitioning');

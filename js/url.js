@@ -14,6 +14,8 @@ const hashHandler = function(hashArray){
     } else if (hashArray.length === 0){
       //go home
       reset(true);
+    } else {
+      window.location.hash = '#!'
     }
 }
 
