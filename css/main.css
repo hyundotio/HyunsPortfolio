@@ -31,6 +31,9 @@ a {
 a:hover {
     opacity:0.5;
 }
+a:active {
+    opacity:0.3;
+}
 .hide {
     display:none;
 }
@@ -698,7 +701,6 @@ body.loading-work {
     opacity:0;
 }
 .work-page.active h3 {
-    transition-delay:0.2s;
     opacity:1;
 }
 .work-page .work-list li {

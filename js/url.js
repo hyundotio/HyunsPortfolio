@@ -1,21 +1,28 @@
 
 const hashHandler = function(hashArray){
-    console.log(hashArray);
     if(hashArray[0] === 'work'){
       //work
       if(hashArray[1] !== undefined){
           loadWork(hashArray);
+      } else {
+          window.location.hash = '#!'
       }
     } else if (hashArray[0] === 'page'){
       if(hashArray[1] !== undefined){
           loadPage(hashArray);
+      } else {
+          window.location.hash = '#!'
       }
       //about
     } else if (hashArray.length === 0){
       //go home
-      reset(true);
+      if(window.location.hash == ''){
+          window.location.hash = '#!'
+      } else {
+          reset(true);
+      }
     } else {
-      window.location.hash = '#!'
+        window.location.hash = '#!'
     }
 }
 
@@ -27,7 +34,6 @@ const hashCreator = function(firstTime){
       cleanedHash.push(locHash[i]);
     }
   }
-  console.log(cleanedHash);
   hashHandler(cleanedHash);
 }
 

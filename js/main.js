@@ -245,6 +245,8 @@ const loadWork = function(hashLoc) {
                 workUnbinder();
                 $('.work-content-container').load(htmlUrl, function(response, status, xhr) {
                     if(status == 'error'){
+                      $body.removeClass('loading-work');
+                      $workSplash.removeClass('active');
                       window.location.hash ='#!'
                     } else {
                       workBinder();
@@ -267,7 +269,7 @@ const loadWork = function(hashLoc) {
                       }).attr('src', imgUrl)
                     }
                 })
-            }, 1200);
+            }, 1020);
         }
     }
 }
@@ -456,6 +458,7 @@ $('.mobile-menu').bind('click', function() {
 
 //Init
 const firstLoad = function() {
+    $('body').removeAttr('style');
     setTimeout(function() {
         $('.homepage-content').removeClass('op-hidden');
     }, 1);
@@ -475,10 +478,7 @@ const initLoadGraceCheck = function() {
     let loadProgress = 0;
     const checkLoad = function() {
         if (loadProgress === imgs) {
-            $('body').removeAttr('style');
-            setTimeout(function() {
-                firstLoad();
-            }, 520);
+            firstLoad();
         }
     }
     $img.each(function() {
