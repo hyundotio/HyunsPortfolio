@@ -14,7 +14,6 @@ const enableScroll = function() {
         return true;
     }
 }
-
 //Operational Functions
 const workUnbinder = function() {
     $('.work-video').unbind('click');
@@ -24,7 +23,6 @@ const workUnbinder = function() {
     $('.gallery-caption-button').unbind('click');
     $(window).unbind('scroll');
 }
-
 const workBinder = function() {
     //Work video
     $('.work-video').bind('click', function() {
@@ -44,7 +42,6 @@ const workBinder = function() {
     //Work back to top
     //Fullscreen gallery handlers
     $('.gallery-image').bind('click', function(e) {
-        e.preventDefault();
         disableScroll();
         const $this = $(this);
         const bgStr = 'url("' + $this.attr('src') + '")';
@@ -112,24 +109,16 @@ const workBinder = function() {
     //scroll binder
 }
 
-//Hash Location Syncer
-const hashSync = function(openingLoc) {
-    if(openingLoc !== window.location.hash){
-      hashCreator();
-    }
-}
-//Hash Location Syncer
-
 //Work Handlers
 const closeWork = function() {
     const $workPageContainer = $('.work-page-container');
     const $mainSplash = $('.main-splash');
     if (!$workPageContainer.hasClass('grace-kill') && $workPageContainer.attr('data-work') !== undefined) {
         //console.log('closing work');
-        navHandler('home-page');
-        const openingLoc = window.location.hash;
         $('.work-scroller').removeClass('active');
-        mobileMenuKiller();
+        $('.mobile-menu').removeClass('active');
+        $('.menu-filter').removeClass('active');
+        $('.main-nav-list').removeClass('mobile-active');
         workUnbinder();
         $('body').removeClass('work-mode');
         $workPageContainer.removeAttr('data-work').addClass('grace-kill');
@@ -137,24 +126,29 @@ const closeWork = function() {
         setTimeout(function() {
             $workPageContainer.find('.work-content-container').empty();
             $('.work-splash').removeClass('active ready grace-kill');
-            $workPageContainer.removeClass('active grace-kill active-finished');
+            $workPageContainer.removeClass('active grace-kill');
             $mainSplash.removeClass('grace-kill');
-            hashSync(openingLoc);
         }, 520);
     }
 }
 
 const reset = function(override) {
     const $menuPages = $('.menu-pages');
-    //const $mainNav = $('.main-nav');
+    const $mainNav = $('.main-nav');
     const $activeFinishedMenuPage = $menuPages.find('.active-finished');
     if ($menuPages.find('.active').length > 0) {
         if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
-            mobileMenuKiller();
-            //$mainNav.find('.active').removeClass('active');
-            //$mainNav.removeClass('shadow');
-            pageKiller($activeFinishedMenuPage);
-            navHandler('home-page');
+            $('.mobile-menu').removeClass('active');
+            $('.main-nav-list').removeClass('mobile-active');
+            $mainNav.find('.active').removeClass('active');
+            enableScroll();
+            $('body').removeClass('fullscreen');
+            $mainNav.removeClass('shadow');
+            $activeFinishedMenuPage.addClass('grace-kill').removeClass('active-finished');
+            pageHandler($activeFinishedMenuPage);
+            setTimeout(function() {
+                $activeFinishedMenuPage.removeClass('active grace-kill');
+            }, 1020);
             //console.log('killing');
         }
     }
@@ -163,29 +157,26 @@ const reset = function(override) {
     }
 }
 
-const loadWork = function(hashLoc) {
+const loadWork = function($targetEl) {
     const $body = $('body');
-    //const $mainNav = $('.main-nav');
+    const $mainNav = $('.main-nav');
     const $workSplash = $('.work-splash');
     const $workPageContainer = $('.work-page-container');
     const $loaderBar = $('.loader-bar');
     const $loaderPercentageNumber = $('.loader-percentage-number');
     const $menuWorkPage = $('.menu-work-page');
     if (!$menuWorkPage.hasClass('grace-kill')) {
-        if (hashLoc[1] === $('.work-page-container').attr('data-work')) {
+        if ($targetEl.attr('data-work') === $('.work-page-container').attr('data-work')) {
             const $menuPages = $('.menu-pages');
             if ($menuPages.find('.active').length > 0) {
                 if ($menuPages.find('.active-finished').length !== 0 && ($menuPages.find('.active-finished').hasClass('active-finished'))) {
-                    //$mainNav.find('.active').removeClass('active');
-                    const openingLoc = window.location.hash;
+                    $mainNav.find('.active').removeClass('active');
                     enableScroll();
-                    navHandler('work-page');
                     $body.removeClass('fullscreen');
                     $menuPages.find('.active-finished').addClass('grace-kill').removeClass('active-finished');
                     setTimeout(function() {
-                        //$mainNav.removeClass('shadow');
+                        $mainNav.removeClass('shadow');
                         $menuPages.find('.active').removeClass('active grace-kill');
-                        hashSync(openingLoc);
                     }, 1020);
                     //console.log('killing');
                 }
@@ -197,20 +188,13 @@ const loadWork = function(hashLoc) {
             $('.work-scroller').removeClass('active');
             enableScroll();
             $body.removeClass('fullscreen').addClass('loading-work');
-            const htmlUrl = './projects/' + hashLoc[1] + '/html.html';
-            const imgUrl = './projects/' + hashLoc[1] + '/bg.jpg';
+            const htmlUrl = './projects/' + $targetEl.attr('data-work') + '/html.html';
+            const imgUrl = './projects/' + $targetEl.attr('data-work') + '/bg.jpg';
             $workPageContainer.removeClass('active');
             $workSplash.removeClass('ready').addClass('active');
-            let workTitle;
-            $('.work-list').find('a').each(function(){
-              const $this = $(this);
-              if($this.attr('data-work') == hashLoc[1]){
-                workTitle = $this.attr('data-title');
-              }
-            })
-            $('.work-splash-title').find('span').text(workTitle);
+            $('.work-splash-title').find('span').text($targetEl.attr('data-title'));
             $menuWorkPage.addClass('grace-kill');
-            //$mainNav.find('.active').removeClass('active');
+            $mainNav.find('.active').removeClass('active');
             const loadBar = function(total, progress) {
                 //console.log(total);
                 //console.log(progress);
@@ -218,14 +202,11 @@ const loadWork = function(hashLoc) {
                 $loaderBar.css('width', (String(percentage) + '%'));
                 $loaderPercentageNumber.text(String(percentage));
                 if (!isNaN(percentage) && total === progress) {
-                    $('.reset-toggler').attr('href',('#!/'+hashLoc.join('/')));
-                    $workPageContainer.addClass('active').attr('data-work', hashLoc[1]);
+                    $workPageContainer.addClass('active').attr('data-work', $targetEl.attr('data-work'));
                     $('.work-splash-bg').css('background-image', 'url("' + imgUrl + '")');
                     $workSplash.addClass('ready');
                     setTimeout(function() {
-                        navHandler('work-page');
-                        //$mainNav.removeClass('shadow');
-                        $workPageContainer.addClass('active-finished');
+                        $mainNav.removeClass('shadow');
                         $body.removeClass('loading-work').addClass('work-mode');
                         $loaderBar.css('width', '0');
                         $loaderPercentageNumber.text('0');
@@ -236,29 +217,25 @@ const loadWork = function(hashLoc) {
                 $menuWorkPage.removeClass('grace-kill active active-finished');
                 let loaderCount = 0;
                 workUnbinder();
-                $('.work-content-container').load(htmlUrl, function(response, status, xhr) {
-                    if(status == 'error'){
-                      window.location.hash ='#!'
-                    } else {
-                      workBinder();
-                      //console.log('loaded');
-                      const $this = $(this);
-                      const assetCount = $this.find('img').length + 1;
-                      //console.log(assetCount);
-                      $this.find('img').each(function() {
-                          const img = new Image();
-                          $(img).on('load', function() {
-                              //console.log('img loaded');
-                              loaderCount += 1;
-                              loadBar(assetCount, loaderCount);
-                          }).attr('src', $(this).attr('src'));
-                      })
-                      const bgImg = new Image();
-                      $(bgImg).on('load', function() {
-                          loaderCount += 1;
-                          loadBar(assetCount, loaderCount);
-                      }).attr('src', imgUrl)
-                    }
+                $('.work-content-container').load(htmlUrl, function() {
+                    workBinder();
+                    //console.log('loaded');
+                    const $this = $(this);
+                    const assetCount = $this.find('img').length + 1;
+                    //console.log(assetCount);
+                    $this.find('img').each(function() {
+                        const img = new Image();
+                        $(img).on('load', function() {
+                            //console.log('img loaded');
+                            loaderCount += 1;
+                            loadBar(assetCount, loaderCount);
+                        }).attr('src', $(this).attr('src'));
+                    })
+                    const bgImg = new Image();
+                    $(bgImg).on('load', function() {
+                        loaderCount += 1;
+                        loadBar(assetCount, loaderCount);
+                    }).attr('src', imgUrl)
                 })
             }, 1200);
         }
@@ -313,25 +290,12 @@ const scrollToggler = function(){
 }
 //Back to Top//
 
-//Nav handlers
-const navHandler = function(navData){
-  const $mainNav = $('.main-nav');
-  $('.main-nav-list').find('.active').removeClass('active');
-  $('.main-nav-list').find('a').each(function(){
-    const $this = $(this);
-    if($this.attr('data-pageClass') == navData){
-      console.log('active!');
-      $this.addClass('active');
-      if($this.attr('data-pageClass') == 'home-page'){
-        $mainNav.removeClass('shadow');
-      } else {
-        console.log($this.attr('data-pageClass'));
-        $mainNav.addClass('shadow');
-      }
-    }
-  })
-}
-//Nav handlers
+//Load work
+$('.work-page-link').bind('click', function(e) {
+    e.preventDefault();
+    loadWork($(this));
+})
+//Load work
 
 //page handler
 const pageHandler = function($el){
@@ -346,55 +310,55 @@ const pageHandler = function($el){
 }
 //page handler
 //Homepage menu handler
-
-const pageKiller = function($page){
-  const openingLoc = window.location.hash;
-  enableScroll();
-  $('body').removeClass('fullscreen');
-  $page.addClass('grace-kill').removeClass('active-finished');
-  pageHandler($page);
-  setTimeout(function() {
-      $page.removeClass('active grace-kill');
-      hashSync(openingLoc);
-  }, 1020);
-}
-const loadPage = function(hashLoc){
-  const $menuPages = $('.menu-pages');
-  //const $mainNav = $('.main-nav');
-  const $body = $('body');
-  mobileMenuKiller();
-  const $page = $('.' + hashLoc[1]);
-  console.log($page);
-  if($page.length > 0){
+$('.menu-page-link').bind('click', function(e) {
+    e.preventDefault();
+    const $menuPages = $('.menu-pages');
+    const $mainNav = $('.main-nav');
+    const $body = $('body');
+    const $this = $(this);
+    const nextPage = $this.attr('data-page');
+    $('.menu-filter').removeClass('active');
+    $('.mobile-menu').removeClass('active');
+    $('.main-nav-list').removeClass('mobile-active');
+    const $page = $('.' + nextPage);
     if ($menuPages.find('.active').length > 0) {
-        //console.log('transitioning');
-        //$mainNav.find('.active').removeClass('active');
-        //$el.addClass('active');
-        const openingLoc = window.location.hash;
-        const $prevPage = $menuPages.find('.active-finished');
-        $prevPage.addClass('grace-transition');
-        navHandler(hashLoc[1]);
-        pageHandler($prevPage);
-        setTimeout(function() {
-            $prevPage.removeClass('active active-finished grace-transition');
-            $page.addClass('active');
+        if ($menuPages.find('.active-finished').length !== 0 && ($page.hasClass('active-finished'))) {
+            $mainNav.find('.active').removeClass('active');
+            enableScroll();
+            $body.removeClass('fullscreen');
+            $mainNav.removeClass('shadow');
+            $page.addClass('grace-kill').removeClass('active-finished');
             pageHandler($page);
             setTimeout(function() {
-                $page.addClass('grace-active');
+                $page.removeClass('active grace-kill');
+            }, 1020);
+            //console.log('killing');
+        }
+        if ($menuPages.find('.active-finished').length !== 0 && (!$page.hasClass('active-finished')) && $menuPages.find('.grace-transition').length === 0) {
+            //console.log('transitioning');
+            $mainNav.find('.active').removeClass('active');
+            $this.addClass('active');
+            const $prevPage = $menuPages.find('.active-finished');
+            $prevPage.addClass('grace-transition');
+            pageHandler($prevPage);
+            setTimeout(function() {
+                $prevPage.removeClass('active active-finished grace-transition');
+                $page.addClass('active');
+                pageHandler($page);
                 setTimeout(function() {
-                    $page.removeClass('grace-active').addClass('active-finished');
-                    hashSync(openingLoc);
-                }, 1020);
-            }, 50);
-        }, 520);
+                    $page.addClass('grace-active');
+                    setTimeout(function() {
+                        $page.removeClass('grace-active').addClass('active-finished');
+                    }, 1020);
+                }, 50);
+            }, 520);
+        }
     } else {
         if ($menuPages.find('.active-finished').length === 0) {
-            const openingLoc = window.location.hash;
             disableScroll();
             $body.addClass('fullscreen');
-            navHandler(hashLoc[1]);
-            //$mainNav.addClass('shadow');
-            //$el.addClass('active');
+            $mainNav.addClass('shadow');
+            $this.addClass('active');
             //console.log('opening');
             $page.addClass('active');
             setTimeout(function(){
@@ -402,26 +366,44 @@ const loadPage = function(hashLoc){
               $page.addClass('grace-active');
               setTimeout(function() {
                   $page.removeClass('grace-active').addClass('active-finished');
-                  hashSync(openingLoc);
               }, 1020);
             },50);
+
         }
     }
-  } else {
-    window.location.hash ='#!'
-  }
-}
+})
+//Homepage menu handler
 
-const mobileMenuKiller = function(){
-  $('.mobile-menu').removeClass('active');
-  $('.main-nav-list').removeClass('mobile-active');
-  $('.menu-filter').removeClass('active');
-}
+//Mobile view work
+$('.mobile-view-work').bind('click',function(e){
+  e.preventDefault();
+  $('.menu-page-link').each(function(){
+    const $this = $(this);
+    if($this.attr('data-page') === 'menu-work-page'){
+      $this.click();
+    }
+  })
+})
+//Mobile view work
+
+//Homepage
+$('.reset').bind('click', function(e) {
+    e.preventDefault();
+    reset();
+})
+$('.reset-home').bind('click', function(e) {
+    e.preventDefault();
+    reset(true);
+})
+//Homepage
 
 //Mobile menu handlers
 $('.menu-filter').bind('click', function() {
-    mobileMenuKiller();
+    $('.mobile-menu').removeClass('active');
+    $('.main-nav-list').removeClass('mobile-active');
+    $('.menu-filter').removeClass('active');
 })
+
 
 $('.mobile-menu').bind('click', function() {
     const $mainNavList = $('.main-nav-list');

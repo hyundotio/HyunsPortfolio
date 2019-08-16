@@ -139,6 +139,39 @@ body.loading-work .main-nav{
     visibility:hidden;
     opacity:0;
 }
+.work-page-link span{
+  position:relative;
+}
+.work-page-link span:after {
+  opacity:0;
+  transition:0.5s linear opacity, 0.5s linear width, 0.5s linear visibility;
+  animation-duration: 3s;
+  animation-name: worklinkbar;
+  animation-iteration-count: infinite;
+  background-color:#FFF;
+  position:absolute;
+  width:0;
+  height:1px;
+  content:' ';
+  left:0;
+  bottom:-0.5rem;
+  visibility: hidden;
+}
+.work-mode.fullscreen .work-page-link span:after {
+  visibility: visible;
+  opacity:1;
+}
+@keyframes worklinkbar {
+    0% {
+        width:0;
+   }
+    80% {
+        width:calc(100% - 0.666rem);
+   }
+    100% {
+        width:calc(100% - 0.666rem);
+   }
+}
 /** Special menu handler **/
 
 /** Scroll reveal **/
