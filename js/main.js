@@ -446,7 +446,8 @@ const loadPage = function(hashLoc){
               $body.attr('data-scrollpos',getScrollPos($visibleElement));
               $visibleElement.addClass('scroll-reference');
             }
-            $body.addClass('fullscreen scroll-lock');
+            $body.addClass('fullscreen scroll-lock').removeClass('gallery-fullscreen');
+            $('.gallery').removeClass('active grace');
             navHandler(hashLoc[1]);
             $page.addClass('active');
             setTimeout(function(){
