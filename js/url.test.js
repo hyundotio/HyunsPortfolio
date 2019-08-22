@@ -1,25 +1,34 @@
 
 const hashHandler = function(hashArray){
-    if(hashArray[0] === 'work'){
-      //work
-      if(hashArray[1] !== undefined){
-          loadWork(hashArray);
-      } else {
-          window.location.hash = '#!'
-      }
-    } else if (hashArray[0] === 'page'){
-      if(hashArray[1] !== undefined){
-          loadPage(hashArray);
-      } else {
-          window.location.hash = '#!'
-      }
-      //about
-    } else if (hashArray.length === 0){
-      //go home
-        reset(true);
+  const $body = $('body');
+  if(hashArray.length === 0) {
+    if(window.location.hash === ''){
+        window.location.hash = '#!';
     } else {
-        window.location.hash = '#!'
+        reset(true);
     }
+  } else {
+    let invalidUrl = true;
+    for (let i = 0; i < hashArray.length; i++){
+      if(hashArray[i] === 'work' || hashArray[i] === 'page'){
+        if(hashArray[i] === 'work'){
+          if(hashArray[i+1] !== undefined) {
+              invalidUrl = false;
+              loadWork(hashArray,([i+1]));
+          }
+        }
+        if(hashArray[i] === 'page'){
+          if(hashArray[i+1] !== undefined){
+              invalidUrl = false;
+              loadPage(hashArray,(i+1));
+          }
+        }
+      }
+    }
+    if(invalidUrl){
+        window.location.hash = '#!';
+    }
+  }
 }
 
 const hashCreator = function(firstTime){

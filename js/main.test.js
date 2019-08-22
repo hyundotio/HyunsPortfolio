@@ -165,7 +165,7 @@ const reset = function(override) {
     }
 }
 
-const loadWork = function(hashLoc) {
+const loadWork = function(hashLoc,hashIdx) {
     const $body = $('body');
     //const $mainNav = $('.main-nav');
     const $workSplash = $('.work-splash');
@@ -174,14 +174,14 @@ const loadWork = function(hashLoc) {
     const $loaderPercentageNumber = $('.loader-percentage-number');
     const $menuWorkPage = $('.menu-pages').find('.active');
     if (!$menuWorkPage.hasClass('grace-kill')) {
-        if (hashLoc[1] === $('.work-page-container').attr('data-work')) {
+        if (hashLoc[hashIdx] === $('.work-page-container').attr('data-work')) {
             const $menuPages = $('.menu-pages');
             if ($menuPages.find('.active').length > 0) {
                 if ($menuPages.find('.active-finished').length !== 0 && ($menuPages.find('.active-finished').hasClass('active-finished'))) {
                     //$mainNav.find('.active').removeClass('active');
                     const openingLoc = window.location.hash;
                     enableScroll();
-                    navHandler(null);
+                    navHandler('work-page');
                     $body.removeClass('fullscreen');
                     $menuPages.find('.active-finished').addClass('grace-kill').removeClass('active-finished');
                     setTimeout(function() {
@@ -200,14 +200,14 @@ const loadWork = function(hashLoc) {
             $('.work-scroller').removeClass('active');
             enableScroll();
             $body.removeClass('fullscreen').addClass('loading-work');
-            const htmlUrl = './projects/' + hashLoc[1] + '/html.html';
-            const imgUrl = './projects/' + hashLoc[1] + '/bg.jpg';
+            const htmlUrl = './projects/' + hashLoc[hashIdx] + '/html.html';
+            const imgUrl = './projects/' + hashLoc[hashIdx] + '/bg.jpg';
             $workPageContainer.removeClass('active');
             $workSplash.removeClass('ready').addClass('active');
             let workTitle = '';
             $('.work-list').find('a').each(function(){
               const $this = $(this);
-              if($this.attr('data-work') == hashLoc[1]){
+              if($this.attr('data-work') == hashLoc[hashIdx]){
                 workTitle = $this.attr('data-title');
               }
             })
@@ -223,13 +223,13 @@ const loadWork = function(hashLoc) {
                 $loaderBar.css('width', (String(percentage) + '%'));
                 $loaderPercentageNumber.text(String(percentage));
                 if (!isNaN(percentage) && total === progress) {
-                    $('.reset-toggler').attr('href',('#!/'+hashLoc.join('/')));
-                    $workPageContainer.addClass('active').attr('data-work', hashLoc[1]);
+                    $('.reset-toggler').attr('href',('#!/work/'+hashLoc[hashIdx]));
+                    $workPageContainer.addClass('active').attr('data-work', hashLoc[hashIdx]);
                     $('.work-splash-bg').css('background-image', 'url("' + imgUrl + '")');
                     $workSplash.addClass('ready');
                     setTimeout(function() {
                         //console.log('opening new work');
-                        navHandler(null);
+                        navHandler('work-page');
                         //$mainNav.removeClass('shadow');
                         $workPageContainer.addClass('active-finished');
                         $body.removeClass('loading-work').addClass('work-mode');
@@ -327,24 +327,19 @@ const navHandler = function(navData){
   const $mainNav = $('.main-nav');
   const $mainNavList = $('.main-nav-list');
   $mainNavList.find('.active').removeClass('active');
-  if(navData !== null){
-    $mainNavList.find('a').each(function(){
-      const $this = $(this);
-      const pageClass = $this.attr('data-pageClass');
-      if(pageClass == navData){
-        //console.log('active!');
-        if(pageClass == 'home-page'){
-          $mainNav.removeClass('shadow');
-        } else {
-          //console.log($this.attr('data-pageClass'));
-          $this.addClass('active');
-          $mainNav.addClass('shadow');
-        }
+  $mainNavList.find('a').each(function(){
+    const $this = $(this);
+    if($this.attr('data-pageClass') == navData){
+      //console.log('active!');
+      if($this.attr('data-pageClass') == 'home-page'){
+        $mainNav.removeClass('shadow');
+      } else {
+        //console.log($this.attr('data-pageClass'));
+        $this.addClass('active');
+        $mainNav.addClass('shadow');
       }
-    })
-  } else {
-    $mainNav.removeClass('shadow');
-  }
+    }
+  })
 }
 //Nav handlers
 
@@ -374,12 +369,12 @@ const pageKiller = function($page){
       //console.log('killing page');
   }, 1020);
 }
-const loadPage = function(hashLoc){
+const loadPage = function(hashLoc,hashIdx){
   const $menuPages = $('.menu-pages');
   //const $mainNav = $('.main-nav');
   const $body = $('body');
   mobileMenuKiller();
-  const $page = $('.' + hashLoc[1]);
+  const $page = $('.' + hashLoc[hashIdx]);
   const openingLoc = window.location.hash;
   //console.log($page);
   if($page.length > 0){
@@ -393,7 +388,7 @@ const loadPage = function(hashLoc){
         if ($menuPages.find('.active-finished').length !== 0 && (!$page.hasClass('active-finished')) && $menuPages.find('.grace-transition').length === 0) {
           const $prevPage = $menuPages.find('.active-finished');
           $prevPage.addClass('grace-transition');
-          navHandler(hashLoc[1]);
+          navHandler(hashLoc[hashIdx]);
           pageHandler($prevPage);
           setTimeout(function() {
               $prevPage.removeClass('active active-finished grace-transition');
@@ -413,7 +408,7 @@ const loadPage = function(hashLoc){
         if ($menuPages.find('.active-finished').length === 0) {
             disableScroll();
             $body.addClass('fullscreen');
-            navHandler(hashLoc[1]);
+            navHandler(hashLoc[hashIdx]);
             //$mainNav.addClass('shadow');
             //$el.addClass('active');
             //console.log('opening');

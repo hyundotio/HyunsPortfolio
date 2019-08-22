@@ -131,7 +131,7 @@ const closeWork = function() {
         $('.work-scroller').removeClass('active');
         mobileMenuKiller();
         workUnbinder();
-        $('body').removeClass('work-mode loading-work');
+        $('body').removeClass('work-mode');
         $workPageContainer.removeAttr('data-work').addClass('grace-kill');
         $mainSplash.addClass('grace-kill');
         setTimeout(function() {
@@ -155,12 +155,10 @@ const reset = function(override) {
             //$mainNav.removeClass('shadow');
             pageKiller($activeFinishedMenuPage);
             navHandler('home-page');
-            //console.log('going home');
             //console.log('killing');
         }
     }
     if (override && ($('.grace-active').length === 0)){
-        //console.log('killing work');
         closeWork();
     }
 }
@@ -172,7 +170,7 @@ const loadWork = function(hashLoc) {
     const $workPageContainer = $('.work-page-container');
     const $loaderBar = $('.loader-bar');
     const $loaderPercentageNumber = $('.loader-percentage-number');
-    const $menuWorkPage = $('.menu-pages').find('.active');
+    const $menuWorkPage = $('.menu-work-page');
     if (!$menuWorkPage.hasClass('grace-kill')) {
         if (hashLoc[1] === $('.work-page-container').attr('data-work')) {
             const $menuPages = $('.menu-pages');
@@ -181,13 +179,12 @@ const loadWork = function(hashLoc) {
                     //$mainNav.find('.active').removeClass('active');
                     const openingLoc = window.location.hash;
                     enableScroll();
-                    navHandler(null);
+                    navHandler('work-page');
                     $body.removeClass('fullscreen');
                     $menuPages.find('.active-finished').addClass('grace-kill').removeClass('active-finished');
                     setTimeout(function() {
                         //$mainNav.removeClass('shadow');
                         $menuPages.find('.active').removeClass('active grace-kill');
-                        //console.log('killing work');
                         hashSync(openingLoc);
                     }, 1020);
                     //console.log('killing');
@@ -204,7 +201,7 @@ const loadWork = function(hashLoc) {
             const imgUrl = './projects/' + hashLoc[1] + '/bg.jpg';
             $workPageContainer.removeClass('active');
             $workSplash.removeClass('ready').addClass('active');
-            let workTitle = '';
+            let workTitle;
             $('.work-list').find('a').each(function(){
               const $this = $(this);
               if($this.attr('data-work') == hashLoc[1]){
@@ -217,8 +214,6 @@ const loadWork = function(hashLoc) {
             const loadBar = function(total, progress) {
                 //console.log(total);
                 //console.log(progress);
-
-                const openingLoc = window.location.hash;
                 const percentage = Math.ceil((progress / total) * 100);
                 $loaderBar.css('width', (String(percentage) + '%'));
                 $loaderPercentageNumber.text(String(percentage));
@@ -228,14 +223,12 @@ const loadWork = function(hashLoc) {
                     $('.work-splash-bg').css('background-image', 'url("' + imgUrl + '")');
                     $workSplash.addClass('ready');
                     setTimeout(function() {
-                        //console.log('opening new work');
-                        navHandler(null);
+                        navHandler('work-page');
                         //$mainNav.removeClass('shadow');
                         $workPageContainer.addClass('active-finished');
                         $body.removeClass('loading-work').addClass('work-mode');
                         $loaderBar.css('width', '0');
                         $loaderPercentageNumber.text('0');
-                        hashSync(openingLoc);
                     }, 520);
                 }
             }
@@ -245,8 +238,6 @@ const loadWork = function(hashLoc) {
                 workUnbinder();
                 $('.work-content-container').load(htmlUrl, function(response, status, xhr) {
                     if(status == 'error'){
-                      $body.removeClass('loading-work');
-                      $workSplash.removeClass('active');
                       window.location.hash ='#!'
                     } else {
                       workBinder();
@@ -269,7 +260,7 @@ const loadWork = function(hashLoc) {
                       }).attr('src', imgUrl)
                     }
                 })
-            }, 1020);
+            }, 1200);
         }
     }
 }
@@ -325,26 +316,20 @@ const scrollToggler = function(){
 //Nav handlers
 const navHandler = function(navData){
   const $mainNav = $('.main-nav');
-  const $mainNavList = $('.main-nav-list');
-  $mainNavList.find('.active').removeClass('active');
-  if(navData !== null){
-    $mainNavList.find('a').each(function(){
-      const $this = $(this);
-      const pageClass = $this.attr('data-pageClass');
-      if(pageClass == navData){
-        //console.log('active!');
-        if(pageClass == 'home-page'){
-          $mainNav.removeClass('shadow');
-        } else {
-          //console.log($this.attr('data-pageClass'));
-          $this.addClass('active');
-          $mainNav.addClass('shadow');
-        }
+  $('.main-nav-list').find('.active').removeClass('active');
+  $('.main-nav-list').find('a').each(function(){
+    const $this = $(this);
+    if($this.attr('data-pageClass') == navData){
+      console.log('active!');
+      $this.addClass('active');
+      if($this.attr('data-pageClass') == 'home-page'){
+        $mainNav.removeClass('shadow');
+      } else {
+        console.log($this.attr('data-pageClass'));
+        $mainNav.addClass('shadow');
       }
-    })
-  } else {
-    $mainNav.removeClass('shadow');
-  }
+    }
+  })
 }
 //Nav handlers
 
@@ -365,13 +350,12 @@ const pageHandler = function($el){
 const pageKiller = function($page){
   const openingLoc = window.location.hash;
   enableScroll();
-  $('body').removeClass('fullscreen loading-work');
+  $('body').removeClass('fullscreen');
   $page.addClass('grace-kill').removeClass('active-finished');
   pageHandler($page);
   setTimeout(function() {
       $page.removeClass('active grace-kill');
       hashSync(openingLoc);
-      //console.log('killing page');
   }, 1020);
 }
 const loadPage = function(hashLoc){
@@ -380,37 +364,32 @@ const loadPage = function(hashLoc){
   const $body = $('body');
   mobileMenuKiller();
   const $page = $('.' + hashLoc[1]);
-  const openingLoc = window.location.hash;
-  //console.log($page);
+  console.log($page);
   if($page.length > 0){
     if ($menuPages.find('.active').length > 0) {
         //console.log('transitioning');
         //$mainNav.find('.active').removeClass('active');
         //$el.addClass('active');
-        if ($menuPages.find('.active-finished').length !== 0 && ($page.hasClass('active-finished'))) {
-          pageKiller($page);
-        }
-        if ($menuPages.find('.active-finished').length !== 0 && (!$page.hasClass('active-finished')) && $menuPages.find('.grace-transition').length === 0) {
-          const $prevPage = $menuPages.find('.active-finished');
-          $prevPage.addClass('grace-transition');
-          navHandler(hashLoc[1]);
-          pageHandler($prevPage);
-          setTimeout(function() {
-              $prevPage.removeClass('active active-finished grace-transition');
-              $page.addClass('active');
-              pageHandler($page);
-              setTimeout(function() {
-                  $page.addClass('grace-active');
-                  setTimeout(function() {
-                      //console.log('transitioning page');
-                      $page.removeClass('grace-active').addClass('active-finished');
-                      hashSync(openingLoc);
-                  }, 1020);
-              }, 50);
-          }, 520);
-        }
+        const openingLoc = window.location.hash;
+        const $prevPage = $menuPages.find('.active-finished');
+        $prevPage.addClass('grace-transition');
+        navHandler(hashLoc[1]);
+        pageHandler($prevPage);
+        setTimeout(function() {
+            $prevPage.removeClass('active active-finished grace-transition');
+            $page.addClass('active');
+            pageHandler($page);
+            setTimeout(function() {
+                $page.addClass('grace-active');
+                setTimeout(function() {
+                    $page.removeClass('grace-active').addClass('active-finished');
+                    hashSync(openingLoc);
+                }, 1020);
+            }, 50);
+        }, 520);
     } else {
         if ($menuPages.find('.active-finished').length === 0) {
+            const openingLoc = window.location.hash;
             disableScroll();
             $body.addClass('fullscreen');
             navHandler(hashLoc[1]);
@@ -424,7 +403,6 @@ const loadPage = function(hashLoc){
               setTimeout(function() {
                   $page.removeClass('grace-active').addClass('active-finished');
                   hashSync(openingLoc);
-                  //console.log('opening new page');
               }, 1020);
             },50);
         }
@@ -463,7 +441,6 @@ $('.mobile-menu').bind('click', function() {
 
 //Init
 const firstLoad = function() {
-    $('body').removeAttr('style');
     setTimeout(function() {
         $('.homepage-content').removeClass('op-hidden');
     }, 1);
@@ -483,7 +460,10 @@ const initLoadGraceCheck = function() {
     let loadProgress = 0;
     const checkLoad = function() {
         if (loadProgress === imgs) {
-            firstLoad();
+            $('body').removeAttr('style');
+            setTimeout(function() {
+                firstLoad();
+            }, 520);
         }
     }
     $img.each(function() {
