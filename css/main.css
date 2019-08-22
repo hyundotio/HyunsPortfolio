@@ -768,8 +768,13 @@ body.loading-work {
 /** Work page contents **/
 
 /** Work section gallery **/
-.fullscreen, .gallery-fullscreen {
+.fullscreen, .gallery-fullscreen, .scroll-lock {
     overflow:hidden;
+}
+.gallery-fullscreen {
+    position: fixed;
+    height: 100%;
+    width: 100%;
 }
 .gallery-fullscreen .main-nav {
     opacity: 0;

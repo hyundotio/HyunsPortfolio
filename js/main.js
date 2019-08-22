@@ -1,17 +1,13 @@
-//Clean up constants
-const transitionStr = 'webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend';
-//Clean up constants
-
 //Operational Functions
-const disableScroll = function() {
+const disableGalleryScroll = function() {
     document.ontouchmove = function(e) {
-        e.preventDefault();
+        return true;
     }
 }
 
-const enableScroll = function() {
+const enableGalleryScroll = function() {
     document.ontouchmove = function(e) {
-        return true;
+        e.preventDefault();
     }
 }
 
@@ -45,8 +41,13 @@ const workBinder = function() {
     //Fullscreen gallery handlers
     $('.gallery-image').bind('click', function(e) {
         e.preventDefault();
-        disableScroll();
+        //disableScroll();
+        //enableGalleryScroll();
+        enableGalleryScroll();
+        const $body = $('body');
         const $this = $(this);
+        const scrollPos = $this.offset().top - $(document).scrollTop();
+        $this.addClass('active-gallery-img');
         const bgStr = 'url("' + $this.attr('src') + '")';
         const $gallery = $('.gallery');
         if($this.hasClass('light-img')){
@@ -54,25 +55,39 @@ const workBinder = function() {
         } else {
           $gallery.removeClass('light');
         }
-        $('body').addClass('gallery-fullscreen');
+        $body.attr('data-scrollpos',scrollPos).addClass('scroll-lock');
         $('.gallery-bg-img').css('background-image', bgStr);
         $('.gallery-caption-content').text($this.attr('alt'));
         $gallery.addClass('active');
         setTimeout(function() {
             $gallery.addClass('grace');
+            setTimeout(function(){
+              disableGalleryScroll();
+              $body.addClass('gallery-fullscreen');
+            }, 520);
         }, 30)
     });
 
     $('.exit-gallery').bind('click', function(e) {
         e.preventDefault();
-        enableScroll();
-        const $gallery = $('.gallery');
-        if ($gallery.hasClass('grace')) {
-            $('body').removeClass('gallery-fullscreen');
-            $gallery.removeClass('grace');
-            setTimeout(function() {
-                $gallery.removeClass('active caption-enabled');
-            }, 520)
+        //enableScroll();
+        //disableGalleryScroll();
+        const $body = $('body');
+        if($body.hasClass('gallery-fullscreen')){
+          $body.removeClass('gallery-fullscreen scroll-lock');
+          const $gallery = $('.gallery');
+          const $activeGalleryImg = $('.active-gallery-img');
+          const scrollPos = $activeGalleryImg.offset().top - parseFloat($body.attr('data-scrollpos'));
+          $body.removeAttr('data-scrollPos');
+          console.log(scrollPos);
+          if ($gallery.hasClass('grace')) {
+              $(document).scrollTop(scrollPos);
+              $gallery.removeClass('grace');
+              setTimeout(function() {
+                  $activeGalleryImg.removeClass('active-gallery-img');
+                  $gallery.removeClass('active caption-enabled');
+              }, 520)
+          }
         }
     });
 
@@ -182,7 +197,7 @@ const loadWork = function(hashLoc) {
                 if ($menuPages.find('.active-finished').length !== 0 && ($menuPages.find('.active-finished').hasClass('active-finished'))) {
                     //$mainNav.find('.active').removeClass('active');
                     const openingLoc = window.location.hash;
-                    enableScroll();
+                    //enableScroll();
                     navHandler(null);
                     $body.removeClass('fullscreen');
                     $menuPages.find('.active-finished').addClass('grace-kill').removeClass('active-finished');
@@ -200,7 +215,7 @@ const loadWork = function(hashLoc) {
             $loaderBar.css('width', '0');
             $loaderPercentageNumber.text('0');
             $('.work-scroller').removeClass('active');
-            enableScroll();
+            //enableScroll();
             $body.removeClass('fullscreen').addClass('loading-work');
             const htmlUrl = './projects/' + hashLoc[1] + '/html.html';
             const imgUrl = './projects/' + hashLoc[1] + '/bg.jpg';
@@ -366,7 +381,7 @@ const pageHandler = function($el){
 
 const pageKiller = function($page){
   const openingLoc = window.location.hash;
-  enableScroll();
+  //enableScroll();
   $('body').removeClass('fullscreen loading-work');
   $page.addClass('grace-kill').removeClass('active-finished');
   pageHandler($page);
@@ -413,7 +428,7 @@ const loadPage = function(hashLoc){
         }
     } else {
         if ($menuPages.find('.active-finished').length === 0) {
-            disableScroll();
+            //disableScroll();
             $body.addClass('fullscreen');
             navHandler(hashLoc[1]);
             //$mainNav.addClass('shadow');
