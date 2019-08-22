@@ -1,6 +1,6 @@
 /** Temp **/
 #awwwards {
-  position: absolute;
+  position: fixed;
   transform: translateY(-50%);
   top: 50%;
   left: 0;
@@ -342,9 +342,16 @@ body.loading-work .main-nav{
     transition:0.5s linear opacity;
     position:absolute;
     overflow:hidden;
+}
+.sunset-footer {
+    height: 3rem;
+    width: 110%;
+    margin: auto;
     background: radial-gradient(at bottom, #ff5e00 -50%, rgba(255,46,0,0) 72%);
     background-position-y: 0;
     background-repeat: no-repeat;
+    display: inline-block;
+    margin-left: -5%;
 }
 /** Homepage **/
 
@@ -900,6 +907,12 @@ body.loading-work {
 /** Back to top button for work page **/
 
 @media only screen and (max-width: 720px) {
+    #awwwards {
+      top: 8rem;
+      right: 0;
+      left: auto;
+      position: fixed;
+    }
     .fullscreen .reset-toggler {
         opacity: 1;
         cursor: pointer;
