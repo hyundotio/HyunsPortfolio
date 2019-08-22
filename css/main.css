@@ -605,7 +605,7 @@ body.loading-work {
 }
 .work-content-container {
     margin:auto;
-    padding:6rem 0 6rem 0;
+    padding:5rem 0 5rem 0;
 }
 .work-gallery-container {
     max-width:100%;
@@ -678,7 +678,7 @@ body.loading-work {
 .work-section {
     max-width: 860px;
     margin: auto;
-    padding: 4rem 2rem 4rem 2rem;
+    padding: 5rem 2rem 5rem 2rem;
     box-sizing: border-box;
 }
 .work-section p {

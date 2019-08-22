@@ -56,7 +56,7 @@ const workBinder = function() {
         }
         $('body').addClass('gallery-fullscreen');
         $('.gallery-bg-img').css('background-image', bgStr);
-        $('.gallery-caption-content').text($this.attr('data-caption'));
+        $('.gallery-caption-content').text($this.attr('alt'));
         $gallery.addClass('active');
         setTimeout(function() {
             $gallery.addClass('grace');
