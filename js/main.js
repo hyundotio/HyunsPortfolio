@@ -1,19 +1,25 @@
-//Clean up constants
-const transitionStr = 'webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend';
-//Clean up constants
-
 //Operational Functions
-const disableScroll = function() {
+const enableBodyScroll = function() {
+    document.ontouchmove = function(e) {
+        return true;
+    }
+}
+
+const disableBodyScroll = function() {
     document.ontouchmove = function(e) {
         e.preventDefault();
     }
 }
 
-const enableScroll = function() {
-    document.ontouchmove = function(e) {
-        return true;
-    }
-}
+$.fn.isInViewport = function() {
+  const $this = $(this);
+  const $window = $(window);
+  const elementTop = $this.offset().top;
+  const elementBottom = elementTop + $this.outerHeight();
+  const viewportTop = $window.scrollTop();
+  const viewportBottom = viewportTop + $window.height();
+  return elementBottom > viewportTop && elementTop < viewportBottom;
+};
 
 //Operational Functions
 const workUnbinder = function() {
@@ -23,6 +29,11 @@ const workUnbinder = function() {
     $('.exit-gallery').unbind('click');
     $('.gallery-caption-button').unbind('click');
     $(window).unbind('scroll');
+}
+
+const getScrollPos = function($el){
+    const scrollPos = $el.offset().top - $(document).scrollTop();
+    return scrollPos;
 }
 
 const workBinder = function() {
@@ -45,34 +56,60 @@ const workBinder = function() {
     //Fullscreen gallery handlers
     $('.gallery-image').bind('click', function(e) {
         e.preventDefault();
-        disableScroll();
+        disableBodyScroll();
+        const $body = $('body');
         const $this = $(this);
         const bgStr = 'url("' + $this.attr('src') + '")';
         const $gallery = $('.gallery');
+        const $visibleElement = findVisibleWorkElement();
+        if($visibleElement){
+          $body.attr('data-scrollpos',getScrollPos($visibleElement)).addClass('scroll-lock');
+          $visibleElement.addClass('scroll-reference');
+        }
+        $this.addClass('active-gallery-img');
         if($this.hasClass('light-img')){
           $gallery.addClass('light');
         } else {
           $gallery.removeClass('light');
         }
-        $('body').addClass('gallery-fullscreen');
         $('.gallery-bg-img').css('background-image', bgStr);
         $('.gallery-caption-content').text($this.attr('alt'));
         $gallery.addClass('active');
         setTimeout(function() {
             $gallery.addClass('grace');
+            setTimeout(function(){
+              enableBodyScroll();
+              $body.addClass('scroll-fixed-lock gallery-fullscreen');
+            }, 520);
         }, 30)
     });
 
     $('.exit-gallery').bind('click', function(e) {
         e.preventDefault();
-        enableScroll();
-        const $gallery = $('.gallery');
-        if ($gallery.hasClass('grace')) {
-            $('body').removeClass('gallery-fullscreen');
-            $gallery.removeClass('grace');
-            setTimeout(function() {
-                $gallery.removeClass('active caption-enabled');
-            }, 520)
+        const $body = $('body');
+        if($body.hasClass('gallery-fullscreen')){
+          $body.removeClass('scroll-fixed-lock scroll-lock gallery-fullscreen');
+          const $gallery = $('.gallery');
+          const $activeGalleryImg = $('.active-gallery-img');
+
+          const $scrollReference = $('.scroll-reference');
+          let scrollPos;
+          if($scrollReference.length > 0){
+            scrollPos = $scrollReference.offset().top - parseFloat($body.attr('data-scrollpos'));
+            //console.log(scrollPos);
+            $scrollReference.removeClass('scroll-reference');
+            $body.removeAttr('data-scrollpos');
+          }
+          if ($gallery.hasClass('grace')) {
+              if(scrollPos){
+                $(document).scrollTop(scrollPos);
+              }
+              $gallery.removeClass('grace');
+              setTimeout(function() {
+                  $activeGalleryImg.removeClass('active-gallery-img');
+                  $gallery.removeClass('active caption-enabled');
+              }, 520)
+          }
         }
     });
 
@@ -97,8 +134,9 @@ const workBinder = function() {
       if($('body').hasClass('work-mode')){
         $('.scroll-hidden').each( function(e){
           const $this = $(this);
+          const $window = $(window);
           const thisTopPos = $this.offset().top + 48;
-          const scrollPos = $(window).scrollTop() + $(window).height();
+          const scrollPos = $window.scrollTop() + $window.height();
              if(scrollPos > thisTopPos){
                 $this.removeClass('scroll-hidden');
              }
@@ -146,22 +184,17 @@ const closeWork = function() {
 
 const reset = function(override) {
     if(!$('body').hasClass('init')) {
+      //console.log('resetting');
       const $menuPages = $('.menu-pages');
-      //const $mainNav = $('.main-nav');
       const $activeFinishedMenuPage = $menuPages.find('.active-finished');
       if ($menuPages.find('.active').length > 0) {
           if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
               mobileMenuKiller();
-              //$mainNav.find('.active').removeClass('active');
-              //$mainNav.removeClass('shadow');
               pageKiller($activeFinishedMenuPage);
               navHandler('home-page');
-              //console.log('going home');
-              //console.log('killing');
           }
       }
       if (override && ($('.grace-active').length === 0)){
-          //console.log('killing work');
           closeWork();
       }
     }
@@ -169,7 +202,6 @@ const reset = function(override) {
 
 const loadWork = function(hashLoc) {
     const $body = $('body');
-    //const $mainNav = $('.main-nav');
     const $workSplash = $('.work-splash');
     const $workPageContainer = $('.work-page-container');
     const $loaderBar = $('.loader-bar');
@@ -180,28 +212,31 @@ const loadWork = function(hashLoc) {
             const $menuPages = $('.menu-pages');
             if ($menuPages.find('.active').length > 0) {
                 if ($menuPages.find('.active-finished').length !== 0 && ($menuPages.find('.active-finished').hasClass('active-finished'))) {
-                    //$mainNav.find('.active').removeClass('active');
+                    //console.log('opening work from page');
                     const openingLoc = window.location.hash;
-                    enableScroll();
+                    const $scrollReference = $('.scroll-reference');
                     navHandler(null);
-                    $body.removeClass('fullscreen');
+                    $body.removeClass('fullscreen scroll-lock scroll-fixed-lock');
+                    if($scrollReference.length > 0){
+                      $(document).scrollTop($scrollReference.offset().top - parseFloat($body.attr('data-scrollpos')));
+                      $scrollReference.removeClass('scroll-reference');
+                      $body.removeAttr('data-scrollpos');
+                    }
                     $menuPages.find('.active-finished').addClass('grace-kill').removeClass('active-finished');
                     setTimeout(function() {
-                        //$mainNav.removeClass('shadow');
                         $menuPages.find('.active').removeClass('active grace-kill');
-                        //console.log('killing work');
                         hashSync(openingLoc);
                     }, 1020);
-                    //console.log('killing');
                 }
             }
         } else {
+            //console.log('opening work');
             $workPageContainer.find('.work-content-container').empty();
             $loaderBar.css('width', '0');
             $loaderPercentageNumber.text('0');
             $('.work-scroller').removeClass('active');
-            enableScroll();
-            $body.removeClass('fullscreen').addClass('loading-work');
+            $body.removeClass('fullscreen gallery-fullscreen').addClass('loading-work');
+            $('.gallery').removeClass('active grace');
             const htmlUrl = './projects/' + hashLoc[1] + '/html.html';
             const imgUrl = './projects/' + hashLoc[1] + '/bg.jpg';
             $workPageContainer.removeClass('active');
@@ -215,11 +250,7 @@ const loadWork = function(hashLoc) {
             })
             $('.work-splash-title').find('span').text(workTitle);
             $menuWorkPage.addClass('grace-kill');
-            //$mainNav.find('.active').removeClass('active');
             const loadBar = function(total, progress) {
-                //console.log(total);
-                //console.log(progress);
-
                 const openingLoc = window.location.hash;
                 const percentage = Math.ceil((progress / total) * 100);
                 $loaderBar.css('width', (String(percentage) + '%'));
@@ -230,11 +261,9 @@ const loadWork = function(hashLoc) {
                     $('.work-splash-bg').css('background-image', 'url("' + imgUrl + '")');
                     $workSplash.addClass('ready');
                     setTimeout(function() {
-                        //console.log('opening new work');
                         navHandler(null);
-                        //$mainNav.removeClass('shadow');
                         $workPageContainer.addClass('active-finished');
-                        $body.removeClass('loading-work').addClass('work-mode');
+                        $body.removeClass('loading-work scroll-lock scroll-fixed-lock').addClass('work-mode').removeAttr('data-scrollpos');
                         $loaderBar.css('width', '0');
                         $loaderPercentageNumber.text('0');
                         hashSync(openingLoc);
@@ -252,14 +281,11 @@ const loadWork = function(hashLoc) {
                       window.location.hash ='#!'
                     } else {
                       workBinder();
-                      //console.log('loaded');
                       const $this = $(this);
                       const assetCount = $this.find('img').length + 1;
-                      //console.log(assetCount);
                       $this.find('img').each(function() {
                           const img = new Image();
                           $(img).on('load', function() {
-                              //console.log('img loaded');
                               loaderCount += 1;
                               loadBar(assetCount, loaderCount);
                           }).attr('src', $(this).attr('src'));
@@ -283,9 +309,9 @@ $(document).on("keypress", function (e) {
     e.preventDefault();
     const $body = $('body');
     let keynum;
-    if(window.event) { // IE
+    if(window.event) {
         keynum = e.keyCode;
-    } else if(e.which){ // Netscape/Firefox/Opera
+    } else if(e.which){
         keynum = e.which;
     }
     if(String.fromCharCode(keynum) == 'p' || String.fromCharCode(keynum) == 'P'){
@@ -334,11 +360,9 @@ const navHandler = function(navData){
       const $this = $(this);
       const pageClass = $this.attr('data-pageClass');
       if(pageClass == navData){
-        //console.log('active!');
         if(pageClass == 'home-page'){
           $mainNav.removeClass('shadow');
         } else {
-          //console.log($this.attr('data-pageClass'));
           $this.addClass('active');
           $mainNav.addClass('shadow');
         }
@@ -366,33 +390,36 @@ const pageHandler = function($el){
 
 const pageKiller = function($page){
   const openingLoc = window.location.hash;
-  enableScroll();
-  $('body').removeClass('fullscreen loading-work');
+  const $body = $('body');
+  const $scrollReference = $('.scroll-reference');
+  $body.removeClass('fullscreen loading-work scroll-lock scroll-fixed-lock');
+  if($scrollReference.length > 0){
+      const scrollPos = $scrollReference.offset().top - parseFloat($body.attr('data-scrollpos'));
+      $scrollReference.removeClass('scroll-reference');
+      $body.removeAttr('data-scrollpos');
+      $(document).scrollTop(scrollPos);
+  }
   $page.addClass('grace-kill').removeClass('active-finished');
   pageHandler($page);
   setTimeout(function() {
       $page.removeClass('active grace-kill');
       hashSync(openingLoc);
-      //console.log('killing page');
   }, 1020);
 }
 const loadPage = function(hashLoc){
   const $menuPages = $('.menu-pages');
-  //const $mainNav = $('.main-nav');
   const $body = $('body');
   mobileMenuKiller();
   const $page = $('.' + hashLoc[1]);
   const openingLoc = window.location.hash;
-  //console.log($page);
   if($page.length > 0){
     if ($menuPages.find('.active').length > 0) {
-        //console.log('transitioning');
-        //$mainNav.find('.active').removeClass('active');
-        //$el.addClass('active');
         if ($menuPages.find('.active-finished').length !== 0 && ($page.hasClass('active-finished'))) {
+          //console.log('kill page');
           pageKiller($page);
         }
         if ($menuPages.find('.active-finished').length !== 0 && (!$page.hasClass('active-finished')) && $menuPages.find('.grace-transition').length === 0) {
+          //console.log('transition');
           const $prevPage = $menuPages.find('.active-finished');
           $prevPage.addClass('grace-transition');
           navHandler(hashLoc[1]);
@@ -404,7 +431,6 @@ const loadPage = function(hashLoc){
               setTimeout(function() {
                   $page.addClass('grace-active');
                   setTimeout(function() {
-                      //console.log('transitioning page');
                       $page.removeClass('grace-active').addClass('active-finished');
                       hashSync(openingLoc);
                   }, 1020);
@@ -413,27 +439,49 @@ const loadPage = function(hashLoc){
         }
     } else {
         if ($menuPages.find('.active-finished').length === 0) {
-            disableScroll();
-            $body.addClass('fullscreen');
+            //console.log('open page');
+            disableBodyScroll();
+            const $visibleElement = findVisibleWorkElement();
+            if($visibleElement){
+              $body.attr('data-scrollpos',getScrollPos($visibleElement));
+              $visibleElement.addClass('scroll-reference');
+            }
+            $body.addClass('fullscreen scroll-lock');
             navHandler(hashLoc[1]);
-            //$mainNav.addClass('shadow');
-            //$el.addClass('active');
-            //console.log('opening');
             $page.addClass('active');
             setTimeout(function(){
               pageHandler($page);
               $page.addClass('grace-active');
               setTimeout(function() {
+                  enableBodyScroll();
+                  $body.addClass('scroll-fixed-lock');
                   $page.removeClass('grace-active').addClass('active-finished');
                   hashSync(openingLoc);
-                  //console.log('opening new page');
-              }, 1020);
+              }, 520);
             },50);
         }
     }
   } else {
     window.location.hash ='#!'
   }
+}
+
+const findVisibleWorkElement = function(){
+    let $result;
+    if($('.work-page-container').hasClass('active-finished')){
+        const $workContentContainer = $('.work-content-container');
+        $workContentContainer.children().each(function(){
+            const $this = $(this);
+            if($this.isInViewport()){
+                $result = $this;
+            }
+        });
+        if(!$result){
+            $result = $workContentContainer;
+        }
+    }
+    //console.log($result);
+    return $result;
 }
 
 const mobileMenuKiller = function(){
