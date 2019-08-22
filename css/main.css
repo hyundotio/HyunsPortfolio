@@ -335,17 +335,16 @@ body.loading-work .main-nav{
 }
 .sunset-footer-container {
     bottom:0;
-    height:8rem;
+    height:3rem;
     width:100%;
     left:0;
     z-index:1;
     transition:0.5s linear opacity;
     position:absolute;
     overflow:hidden;
-}
-.sunset-footer {
-    height:8rem;
-    width:100%;
+    background: radial-gradient(at bottom, #ff5e00 -50%, rgba(255,46,0,0) 72%);
+    background-position-y: 0;
+    background-repeat: no-repeat;
 }
 /** Homepage **/
 

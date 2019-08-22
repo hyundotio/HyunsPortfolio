@@ -628,7 +628,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
     }
 
-    this.domElement.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, {passive: true} );
+    this.domElement.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
     this.domElement.addEventListener( 'mousedown', onMouseDown, {passive: true} );
     this.domElement.addEventListener( 'mousewheel', onMouseWheel, {passive: true} );
     this.domElement.addEventListener( 'DOMMouseScroll', onMouseWheel, {passive: true} ); // firefox
