@@ -145,23 +145,25 @@ const closeWork = function() {
 }
 
 const reset = function(override) {
-    const $menuPages = $('.menu-pages');
-    //const $mainNav = $('.main-nav');
-    const $activeFinishedMenuPage = $menuPages.find('.active-finished');
-    if ($menuPages.find('.active').length > 0) {
-        if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
-            mobileMenuKiller();
-            //$mainNav.find('.active').removeClass('active');
-            //$mainNav.removeClass('shadow');
-            pageKiller($activeFinishedMenuPage);
-            navHandler('home-page');
-            //console.log('going home');
-            //console.log('killing');
-        }
-    }
-    if (override && ($('.grace-active').length === 0)){
-        //console.log('killing work');
-        closeWork();
+    if(!$('body').hasClass('init')) {
+      const $menuPages = $('.menu-pages');
+      //const $mainNav = $('.main-nav');
+      const $activeFinishedMenuPage = $menuPages.find('.active-finished');
+      if ($menuPages.find('.active').length > 0) {
+          if ($activeFinishedMenuPage.length !== 0 && ($activeFinishedMenuPage.hasClass('active-finished'))) {
+              mobileMenuKiller();
+              //$mainNav.find('.active').removeClass('active');
+              //$mainNav.removeClass('shadow');
+              pageKiller($activeFinishedMenuPage);
+              navHandler('home-page');
+              //console.log('going home');
+              //console.log('killing');
+          }
+      }
+      if (override && ($('.grace-active').length === 0)){
+          //console.log('killing work');
+          closeWork();
+      }
     }
 }
 
@@ -463,7 +465,7 @@ $('.mobile-menu').bind('click', function() {
 
 //Init
 const firstLoad = function() {
-    $('body').removeAttr('style');
+    $('body').removeAttr('style').removeClass('init');
     setTimeout(function() {
         $('.homepage-content').removeClass('op-hidden');
     }, 1);
