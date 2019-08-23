@@ -567,6 +567,7 @@ body.loading-work {
 }
 .work-page-container {
     position: relative;
+    top: 100vh;
     display:none;
     transition:0.45s opacity linear, 0.45s visibility linear;
     background-color:#0A0A0B;
@@ -618,7 +619,7 @@ body.loading-work {
 }
 .work-content-container {
     margin:auto;
-    padding:calc(5rem + 100vh) 0 5rem 0;
+    padding:5rem 0 5rem 0;
 }
 .work-gallery-container {
     max-width:100%;
@@ -735,19 +736,19 @@ body.loading-work {
 .work-page.grace-active .work-list li {
     transition:0.45s linear opacity;
 }
-.work-page.grace-active .work-list li:nth-of-type(1){
+.work-page.grace-active .work-list li:nth-of-type(1), .work-page.active-finished .work-list li:nth-of-type(1){
     opacity:1;
     transition-delay:0.1s;
 }
-.work-page.grace-active .work-list li:nth-of-type(2){
+.work-page.grace-active .work-list li:nth-of-type(2), .work-page.active-finished .work-list li:nth-of-type(2){
     opacity:1;
     transition-delay:0.2s;
 }
-.work-page.grace-active .work-list li:nth-of-type(3){
+.work-page.grace-active .work-list li:nth-of-type(3), .work-page.active-finished .work-list li:nth-of-type(3){
     opacity:1;
     transition-delay:0.3s;
 }
-.work-page.grace-active .work-list li:nth-of-type(4){
+.work-page.grace-active .work-list li:nth-of-type(4), .work-page.active-finished .work-list li:nth-of-type(4){
     opacity:1;
     transition-delay:0.4s;
 }
