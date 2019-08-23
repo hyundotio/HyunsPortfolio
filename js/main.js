@@ -81,8 +81,8 @@ const workBinder = function() {
             setTimeout(function(){
               enableBodyScroll();
               $body.addClass('scroll-fixed-lock gallery-fullscreen');
-            }, 520);
-        }, 30)
+            }, 470);
+        }, 20)
     });
 
     $('.exit-gallery').bind('click', function(e) {
@@ -109,7 +109,7 @@ const workBinder = function() {
               setTimeout(function() {
                   $activeGalleryImg.removeClass('active-gallery-img');
                   $gallery.removeClass('active caption-enabled');
-              }, 520)
+              }, 470)
           }
         }
     });
@@ -179,7 +179,7 @@ const closeWork = function() {
             $workPageContainer.removeClass('active grace-kill active-finished');
             $mainSplash.removeClass('grace-kill');
             hashSync(openingLoc);
-        }, 520);
+        }, 470);
     }
 }
 
@@ -227,7 +227,7 @@ const loadWork = function(hashLoc) {
                     setTimeout(function() {
                         $menuPages.find('.active').removeClass('active grace-kill');
                         hashSync(openingLoc);
-                    }, 520);
+                    }, 470);
                 }
             }
         } else {
@@ -268,7 +268,7 @@ const loadWork = function(hashLoc) {
                         $loaderBar.css('width', '0');
                         $loaderPercentageNumber.text('0');
                         hashSync(openingLoc);
-                    }, 520);
+                    }, 470);
                 }
             }
             setTimeout(function() {
@@ -298,7 +298,7 @@ const loadWork = function(hashLoc) {
                       }).attr('src', imgUrl)
                     }
                 })
-            }, 520);
+            }, 470);
         }
     }
 }
@@ -405,7 +405,7 @@ const pageKiller = function($page){
   setTimeout(function() {
       $page.removeClass('active grace-kill');
       hashSync(openingLoc);
-  }, 520);
+  }, 470);
 }
 const loadPage = function(hashLoc){
   const $menuPages = $('.menu-pages');
@@ -434,9 +434,9 @@ const loadPage = function(hashLoc){
                   setTimeout(function() {
                       $page.removeClass('grace-active').addClass('active-finished');
                       hashSync(openingLoc);
-                  }, 520);
-              }, 50);
-          }, 520);
+                  }, 470);
+              }, 20);
+          }, 470);
         }
     } else {
         if ($menuPages.find('.active-finished').length === 0) {
@@ -459,8 +459,8 @@ const loadPage = function(hashLoc){
                   $body.addClass('scroll-fixed-lock');
                   $page.removeClass('grace-active').addClass('active-finished');
                   hashSync(openingLoc);
-              }, 520);
-            },50);
+              }, 470);
+            },20);
         }
     }
   } else {
