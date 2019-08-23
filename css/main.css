@@ -559,6 +559,9 @@ body.loading-work .main-nav{
 body.fullscreen .main-splash, body.fullscreen .work-page-container{
     opacity:0;
 }
+body.gallery-mode .main-splash, body.gallery-mode .work-page-container {
+    opacity:0;
+}
 body.loading-work {
     cursor:wait;
 }
@@ -772,9 +775,6 @@ body.loading-work {
     overflow:hidden;
 }
 .scroll-fixed-lock {
-    position: fixed;
-    height: 100%;
-    width: 100%;
 }
 .gallery-fullscreen .main-nav {
     opacity: 0;
@@ -889,10 +889,6 @@ body.loading-work {
     left:0;
     height:100%;
     width:100%;
-    -webkit-transform: translate3d(0,0,0);
-    -moz-transform: translate3d(0,0,0);
-    -ms-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
 }
 /** Work section gallery **/
 

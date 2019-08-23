@@ -66,6 +66,7 @@ const workBinder = function() {
           $body.attr('data-scrollpos',getScrollPos($visibleElement)).addClass('scroll-lock');
           $visibleElement.addClass('scroll-reference');
         }
+        $body.addClass('gallery-mode');
         $this.addClass('active-gallery-img');
         if($this.hasClass('light-img')){
           $gallery.addClass('light');
@@ -88,7 +89,7 @@ const workBinder = function() {
         e.preventDefault();
         const $body = $('body');
         if($body.hasClass('gallery-fullscreen')){
-          $body.removeClass('scroll-fixed-lock scroll-lock gallery-fullscreen');
+          $body.removeClass('scroll-fixed-lock scroll-lock gallery-fullscreen gallery-mode');
           const $gallery = $('.gallery');
           const $activeGalleryImg = $('.active-gallery-img');
 

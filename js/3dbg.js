@@ -28,7 +28,7 @@ function initTHREE() {
     mRenderer = new THREE.WebGLRenderer({
         antialias: true
     });
-    mRenderer.setPixelRatio(window.devicePixelRatio * 0.5);
+    mRenderer.setPixelRatio(window.devicePixelRatio * 0.33);
     mRenderer.setSize(window.innerWidth, window.innerHeight);
 
     mContainer = document.getElementsByClassName('td-bg')[0];
