@@ -567,7 +567,6 @@ body.loading-work {
 }
 .work-page-container {
     position: relative;
-    top: 100vh;
     display:none;
     transition:0.45s opacity linear, 0.45s visibility linear;
     background-color:#0A0A0B;
@@ -619,7 +618,7 @@ body.loading-work {
 }
 .work-content-container {
     margin:auto;
-    padding:5rem 0 5rem 0;
+    padding:calc(5rem + 100vh) 0 5rem 0;
 }
 .work-gallery-container {
     max-width:100%;
