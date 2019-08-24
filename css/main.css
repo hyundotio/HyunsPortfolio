@@ -676,7 +676,7 @@ body.loading-work {
     height: auto;
 }
 .work-video.padded {
-    padding: 11.5rem 2.75rem;
+    padding: 2.75rem;
     box-sizing: border-box;
     background-color: #000;
 }
