@@ -1,4 +1,6 @@
 //Operational Functions
+$.ajaxSetup({ cache: false });
+
 const enableBodyScroll = function() {
     document.ontouchmove = function(e) {
         return true;

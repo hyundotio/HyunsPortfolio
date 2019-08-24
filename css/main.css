@@ -623,8 +623,12 @@ body.loading-work {
 }
 .work-gallery-container {
     max-width: 1800px;
+    background-color: #000;
     overflow: hidden;
     margin: auto;
+}
+.work-gallery-container.bottom-padded {
+    padding-bottom: 3rem;
 }
 .work-gallery {
     margin: 0 auto;
@@ -676,7 +680,7 @@ body.loading-work {
     height: auto;
 }
 .work-video.padded {
-    padding: 2.75rem;
+    padding: 5rem;
     box-sizing: border-box;
     background-color: #000;
 }
@@ -1005,8 +1009,15 @@ body.loading-work {
     html {
         font-size:12px;
    }
+
 }
 @media only screen and (max-width: 684px) {
+    .work-gallery-container.bottom-padded {
+      padding-bottom:0;
+    }
+    .work-video.padded {
+      padding:2rem 2rem 0 2rem;
+    }
     .work-gallery-tp-filler {
       display:none;
     }
