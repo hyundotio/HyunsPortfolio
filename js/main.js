@@ -59,7 +59,7 @@ const workBinder = function() {
     $('.work-gallery-tp-filler').bind('click',function(e){
         e.preventDefault();
         e.stopPropagation();
-        $(this).next('.gallery-image').click();
+        $(this).prev('.gallery-image').click();
     })
     $('.gallery-image').bind('click', function(e) {
         e.preventDefault();
