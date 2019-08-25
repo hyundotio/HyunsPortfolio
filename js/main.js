@@ -144,7 +144,7 @@ const workBinder = function() {
         $('.scroll-hidden').each( function(e){
           const $this = $(this);
           const $window = $(window);
-          const thisTopPos = $this.offset().top + 48;
+          const thisTopPos = $this.offset().top + 16;
           const scrollPos = $window.scrollTop() + $window.height();
              if(scrollPos > thisTopPos){
                 $this.removeClass('scroll-hidden');
