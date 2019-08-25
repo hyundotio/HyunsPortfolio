@@ -56,8 +56,14 @@ const workBinder = function() {
     })
     //Work back to top
     //Fullscreen gallery handlers
+    $('.work-gallery-tp-filler').bind('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).next('.gallery-image').click();
+    })
     $('.gallery-image').bind('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         disableBodyScroll();
         const $body = $('body');
         const $this = $(this);
