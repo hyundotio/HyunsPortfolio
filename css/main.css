@@ -569,6 +569,7 @@ body.loading-work {
 .work-page-container {
     position: absolute;
     top: 100%;
+    width:100%;
     display:none;
     transition:0.45s opacity linear, 0.45s visibility linear;
     background-color:#0A0A0B;
